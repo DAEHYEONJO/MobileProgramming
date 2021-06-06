@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamProject">
-        <activity android:name=".AddRoutineActivity"></activity>
+        <activity android:name=".AddRoutineActivity"/>
         <activity android:name=".CalendarActivity" />
         <activity android:name=".Example"/>
         <activity android:name=".MainActivity">
