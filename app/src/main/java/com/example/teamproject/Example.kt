@@ -8,19 +8,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.teamproject.databinding.ActivityMainBinding
+import com.example.teamproject.databinding.DbexampleBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
 class Example :AppCompatActivity() {
     var db = FirebaseFirestore.getInstance()
 
     lateinit var mydbhelper: Mydbhelper
-    lateinit var binding: ActivityMainBinding
+    lateinit var binding: DbexampleBinding
     lateinit var List : ArrayList<Myroutines>
     lateinit var text: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = DbexampleBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
     }
