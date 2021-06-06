@@ -11,6 +11,7 @@
         android:theme="@style/Theme.TeamProject">
         <activity android:name=".AddRoutineActivity"></activity>
         <activity android:name=".CalendarActivity" />
+        <activity android:name=".Example"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
