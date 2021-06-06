@@ -6,7 +6,8 @@ import android.widget.Adapter
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.moblieprogramming6.databinding.ActivityMainBinding
+
+import com.example.teamproject.databinding.ActivityMainBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
 class Example :AppCompatActivity() {
