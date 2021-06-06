@@ -32,15 +32,61 @@ class Mydbhelper{
     }
 
     fun deletroutine(id:String, date:String, routine:String){ // 루틴 하나만 삭제
-    val docref=db.collection("Profile").document("1234")
+        val docref=db.collection("Profile").document("1234")
                 .collection("history").document(date)
-                val updates= hashMapOf<String,Any>(routine to FieldValue.delete())
+        val updates= hashMapOf<String,Any>(routine to FieldValue.delete())
         docref.update(updates)
     }
 
 
+    interface MyCallback {
+        fun onCallback(value: String){
+        }
+    }
+
+    interface MyCallbakclist {
+        fun onCallbacklist(value : ArrayList<Myroutines>){
+        }
+    }
 
 
+    fun read(id: String, myCallback: MyCallback) { // 단순하게 하나의 요소만 읽을 경우 입니다.
+        db.collection("Profile").document(id) /// document 아이디는 회원가입에서 생성된 아이디가 될것입니다.
+                .get()
+                .addOnSuccessListener {
+                    if(it != null){
+                        myCallback.onCallback(it.get("name").toString())
+                    }
 
+                }
+                .addOnFailureListener { exception ->
+                }
 
+    }
+
+    fun readlist(id:String, date :String , myCallbakclist: MyCallbakclist) { // 리싸이클러뷰와 연동할 경우 입니다. 해당 날짜에 대한 루틴정보를 읽어옵니다.
+
+        val docref = db.collection("Profile").document(id)
+                .collection("history").document(date)
+        docref.get()
+                .addOnSuccessListener {document->
+                    if(document != null) {
+                        val list = ArrayList<Myroutines>()
+                        val map = document.data
+                        val keys = map?.keys?.iterator()
+                        while (keys!!.hasNext()) {
+                            val key = keys?.next()
+                            list.add(Myroutines(key.toString(), map.get(key).toString()))
+                        }
+                        myCallbakclist.onCallbacklist(list)
+                    }
+
+                }
+                .addOnFailureListener {  }
+    }
 }
+
+
+
+
+

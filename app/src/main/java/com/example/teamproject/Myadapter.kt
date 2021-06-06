@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.teamproject.R
 
 class Myadapter(val routines: ArrayList<Myroutines>) :RecyclerView.Adapter<Myadapter.ViewHolder>() {
 
