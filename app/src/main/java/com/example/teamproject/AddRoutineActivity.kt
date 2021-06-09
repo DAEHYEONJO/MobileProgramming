@@ -8,8 +8,12 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 
-class AddRoutineActivity : AppCompatActivity() {
 
+
+
+class AddRoutineActivity : AppCompatActivity() {
+    lateinit var mydbhelper: Mydbhelper
+    lateinit var selected_date:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_routine)
@@ -25,6 +29,9 @@ class AddRoutineActivity : AppCompatActivity() {
         return ret
     }
     private fun init(){
+        selected_date = intent.getStringExtra("date").toString()
+
+        mydbhelper = Mydbhelper()
         val routine_count = findViewById<EditText>(R.id.routine_count)
         val plus_btn = findViewById<ImageButton>(R.id.plus)
         val minus_btn = findViewById<ImageButton>(R.id.minus)
@@ -44,7 +51,13 @@ class AddRoutineActivity : AppCompatActivity() {
         }
         applyBtn.setOnClickListener {
             val routine_name = findViewById<TextInputEditText>(R.id.routine_name)
-            // todo: firestore에 저장
+
+            val data = hashMapOf(
+                routine_name.text.toString() to routine_count.text.toString().toInt(),
+                "date" to selected_date
+            )
+            mydbhelper.addroutine("temp", data)
+
             startActivity(intent)
         }
         cancelBtn.setOnClickListener {
