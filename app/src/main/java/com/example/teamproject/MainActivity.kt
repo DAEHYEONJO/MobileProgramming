@@ -5,18 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
+import com.example.teamproject.calendar.CalendarFragment
 import com.example.teamproject.databinding.ActivityMainBinding
-import com.example.teamproject.databinding.DbexampleBinding
 import com.example.teamproject.stopwatch.MainWatchFragment
-import com.example.teamproject.stopwatch.StopWatchFragment
 import com.example.teamproject.stopwatch.StopWatchService
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private val mainWatchFragment by lazy { MainWatchFragment() }
     private val testFragment by lazy { TestFragment() }
+    private val CalendarFragment by lazy { CalendarFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +66,9 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.bottom_one->{ return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_two->{return@setOnNavigationItemSelectedListener true }
-                R.id.bottom_three->{return@setOnNavigationItemSelectedListener true }
+                R.id.bottom_three->{
+                    replaceFragment(CalendarFragment)
+                    return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_four->{
                     replaceFragment(testFragment)
                     return@setOnNavigationItemSelectedListener true }
