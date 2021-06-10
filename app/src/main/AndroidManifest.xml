@@ -12,9 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamProject">
-        <activity android:name=".AddRoutineActivity"/>
+        <service
+            android:name=".stopwatch.StopWatchService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".AddRoutineActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".Example"/>
+        <activity android:name=".Example" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

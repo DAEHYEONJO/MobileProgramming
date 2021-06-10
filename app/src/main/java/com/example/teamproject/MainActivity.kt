@@ -1,9 +1,14 @@
 package com.example.teamproject
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
@@ -12,10 +17,26 @@ import com.example.teamproject.databinding.ActivityMainBinding
 import com.example.teamproject.databinding.DbexampleBinding
 import com.example.teamproject.stopwatch.MainWatchFragment
 import com.example.teamproject.stopwatch.StopWatchFragment
+import com.example.teamproject.stopwatch.StopWatchService
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    private val REQUEST_VOICE = 100
+    val REQUEST_VOICE = 100
+
+    lateinit var stopWatchService: StopWatchService
+    var bound = false
+    private val connection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            Log.d("stopwatch","onServiceDisconnected")
+            bound = false
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.d("stopwatch","onServiceConnected")
+            val binder = service as StopWatchService.Mybinder
+            stopWatchService = binder.getService()
+        }
+    }
 
     private val mainWatchFragment by lazy { MainWatchFragment() }
     private val testFragment by lazy { TestFragment() }
@@ -26,13 +47,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         requestPermission()//stt 기능을 위해 RECORD_AUDIO 권한 요청
-
+        initService()
         bottomNaviInit()
 
         //binding.button.setOnClickListener {
         //    val intent = Intent(this, Example::class.java)
         //    startActivity(intent) /// db 예시 화면으로 갑니다.
         //}
+    }
+
+    private fun initService(){
+        val intent = Intent(this@MainActivity,StopWatchService::class.java)
+        bindService(intent,connection, Context.BIND_AUTO_CREATE)
     }
 
     private fun bottomNaviInit() {//각자 기능 프래그먼트 만들어서 리플레이스 프레그먼트 함수 호출해주세요
@@ -79,6 +105,13 @@ class MainActivity : AppCompatActivity() {
                     requestPermission()
                 }
             }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(bound){
+            stopWatchService.unbindService(connection)
         }
     }
 }
