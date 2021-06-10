@@ -48,15 +48,32 @@ class StopWatchFragment : Fragment() {
         }else{
             Log.d("stopwatch","메인액티비티 null ")
         }
-
         Log.d("stopwatch","onViewCreated")
-        if (!stopWatchService.isRunnig)
-            stopWatchService.startStopWatch()
 
-        timer = timer(period = 10){
+
+        timer = timer(period = 10) {
             settingTimes()
         }
-        (parentFragment as MainWatchFragment)
+
+        initBtn()
+    }
+
+    private fun initBtn() {
+        binding?.apply {
+            startBtn.setOnClickListener {
+                if (!stopWatchService.isRunnig) {
+                    stopWatchService.startStopWatch()
+                }
+            }
+            pauseBtn.setOnClickListener {
+                if (stopWatchService.isRunnig) {
+                    stopWatchService.stopStopWatch()
+                }
+            }
+            resetBtn.setOnClickListener {
+                if (!stopWatchService.isRunnig) stopWatchService.resetStopWatch()
+            }
+        }
     }
 
     private fun settingTimes() {
@@ -83,7 +100,12 @@ class StopWatchFragment : Fragment() {
                 } else {
                     this.sec.text = sec.toString()
                 }
-                this.msec.text = msec.toString()
+
+                if (msec - 10 < 0) {
+                    this.msec.text = "0$msec"
+                } else {
+                    this.msec.text = msec.toString()
+                }
             }
         }
 

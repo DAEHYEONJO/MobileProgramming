@@ -25,8 +25,11 @@ class MainWatchFragment : Fragment() {
 
     var binding : FragmentMainWatchBinding? = null
     val tabTextArr = arrayOf("스톱워치", "타이머", "기록확인")
+    val tabImgArr = arrayOf(R.drawable.ic_baseline_timer_24,R.drawable.ic_baseline_watch_later_24,R.drawable.ic_baseline_format_list_numbered_24)
 
     var speechRecognizer: SpeechRecognizer? = null
+    var resultText = ""
+    lateinit var stopWatchService : StopWatchService
     private val speechRecognizerIntent by lazy {
         Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
@@ -46,6 +49,13 @@ class MainWatchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("mainwatchfragment","onViewCreated")
+
+        if(activity!=null){
+            stopWatchService = (activity as MainActivity).stopWatchService
+
+        }else{
+            Log.d("stopwatch","메인액티비티 null ")
+        }
         initViewPager()
         startStt()
     }
@@ -56,6 +66,7 @@ class MainWatchFragment : Fragment() {
         binding?.viewPager?.isSaveEnabled = false
         TabLayoutMediator(binding!!.tabLayout,binding!!.viewPager){tab, position ->
             tab.text = tabTextArr[position]
+            tab.setIcon(tabImgArr[position])
         }.attach()
     }
 
@@ -105,8 +116,21 @@ class MainWatchFragment : Fragment() {
         }
 
         override fun onResults(results: Bundle?) {
+            resultText = ""
             results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.forEach {
                 Log.d("sttresult",it)
+                resultText+=it
+            }
+            when(resultText){
+                "시작"->{
+                    if(!stopWatchService.isRunnig)
+                        stopWatchService.startStopWatch()
+                }
+                "그만"->{
+                    if(stopWatchService.isRunnig){
+                        stopWatchService.stopStopWatch()
+                    }
+                }
             }
             speechRecognizer?.startListening(speechRecognizerIntent)
         }

@@ -31,6 +31,7 @@ class StopWatchService : Service() {
     override fun onCreate() {
         super.onCreate()
         Log.i("stopwatchservice","onCreate")
+        timerTask = Timer()
     }
 
     inner class Mybinder: Binder(){
@@ -43,10 +44,28 @@ class StopWatchService : Service() {
             time ++
             hour = time/360000
             min = time/6000
+            min %= 60
             sec = time/100
             sec %= 60
             msec = time%100
         }
+    }
+
+    fun stopStopWatch(){
+        if (isRunnig){
+            Log.d("stopwatchservice","stopStopWatch")
+            timerTask.cancel()
+            timerTask.purge()
+            isRunnig = false
+        }
+    }
+
+    fun resetStopWatch(){
+        hour = 0
+        min = 0
+        sec = 0
+        msec = 0
+        time = 0
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
