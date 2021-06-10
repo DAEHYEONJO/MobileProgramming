@@ -2,21 +2,21 @@ package com.example.teamproject
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import com.example.teamproject.databinding.ActivityMainBinding
-import com.example.teamproject.databinding.DbexampleBinding
 import com.example.teamproject.stopwatch.StopWatchFragment
+import com.example.teamproject.video.VideoItemFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private val REQUEST_VOICE = 100
 
     val stopWatchFragment by lazy { StopWatchFragment() }
+    val videoItemFragment by lazy { VideoItemFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.bottom_one->{ return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_two->{return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_three->{return@setOnNavigationItemSelectedListener true }
-                R.id.bottom_four->{return@setOnNavigationItemSelectedListener true }
+                R.id.bottom_four->{
+                    replaceFragment(videoItemFragment)
+                    return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_stop_watch->{
                     replaceFragment(stopWatchFragment)
                     return@setOnNavigationItemSelectedListener true
