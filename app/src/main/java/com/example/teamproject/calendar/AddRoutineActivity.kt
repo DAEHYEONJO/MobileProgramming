@@ -1,4 +1,4 @@
-package com.example.teamproject
+package com.example.teamproject.calendar
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import com.example.teamproject.MainActivity
+import com.example.teamproject.Mydbhelper
+import com.example.teamproject.R
 import com.google.android.material.textfield.TextInputEditText
 
 
@@ -38,7 +41,7 @@ class AddRoutineActivity : AppCompatActivity() {
         val applyBtn = findViewById<Button>(R.id.apply_btn)
         val cancelBtn = findViewById<Button>(R.id.cancel_btn)
 
-        val intent = Intent(this, CalendarActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
 
         routine_count.setText("10")
         plus_btn.setOnClickListener {
