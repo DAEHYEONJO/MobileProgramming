@@ -13,17 +13,26 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentStopBinding
+import kotlinx.coroutines.withTimeout
 import java.util.*
 
 class StopWatchFragment : Fragment() {
 
     var binding : FragmentStopBinding? = null
     var speechRecognizer: SpeechRecognizer? = null
+    private val speechRecognizerIntent by lazy {
+        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        Log.d("stopwatch","onCreateView")
 
         binding = FragmentStopBinding.inflate(layoutInflater,container,false)
         // Inflate the layout for this fragment
@@ -33,19 +42,12 @@ class StopWatchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.apply {
-            testSttBtn.setOnClickListener {
-                startStt()
-            }
-        }
+        Log.d("stopwatch","onViewCreated")
+
     }
 
-    private fun startStt() {
-        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA)
-        }
 
+    private fun startStt() {
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context).apply {
             setRecognitionListener(recognitionListener())
             startListening(speechRecognizerIntent)
@@ -86,20 +88,48 @@ class StopWatchFragment : Fragment() {
                 SpeechRecognizer.ERROR_RECOGNIZER_BUSY->{Log.e("stt","ERROR_RECOGNIZER_BUSY")}
                 SpeechRecognizer.ERROR_SERVER->{Log.e("stt","ERROR_SERVER")}
                 SpeechRecognizer.ERROR_SPEECH_TIMEOUT->{Log.e("stt","ERROR_SPEECH_TIMEOUT")}
-
             }
+            speechRecognizer?.startListening(speechRecognizerIntent)
         }
 
         override fun onResults(results: Bundle?) {
             results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.forEach {
-                binding?.sttResult?.text = it.toString()
+                //binding?.sttResult?.text = it.toString()
             }
+            speechRecognizer?.startListening(speechRecognizerIntent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("stopwatch","onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("stopwatch","onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("stopwatch","onStop")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("stopwatch","onStart")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("stopwatch","onDestroy")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-
+        Log.d("stopwatch","onDestroyView")
+        speechRecognizer?.stopListening()
+        speechRecognizer = null
         binding = null
     }
 
