@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.example.teamproject.MainActivity
 import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentMainWatchBinding
@@ -31,6 +32,8 @@ class MainWatchFragment : Fragment() {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA)
         }
     }
+
+    private val stopWatchViewModel : StopWatchViewModel by activityViewModels<StopWatchViewModel>()
 
 
 
@@ -126,6 +129,7 @@ class MainWatchFragment : Fragment() {
                 "시작"->{
                     if(!stopWatchService.isRunning){
                         stopWatchService.startStopWatch()
+                        //StopWatchFragment().binding?.micText?.text = getString(R.string.stop)
                         //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.stop)
                     }
 
@@ -133,10 +137,12 @@ class MainWatchFragment : Fragment() {
                 "그만"->{
                     if(stopWatchService.isRunning){
                         stopWatchService.stopStopWatch()
+                        //StopWatchFragment().binding?.micText?.text = getString(R.string.start)
                         //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.start)
                     }
                 }
             }
+            stopWatchViewModel.isRunning.value = stopWatchService.isRunning
             speechRecognizer?.startListening(speechRecognizerIntent)
         }
     }

@@ -7,6 +7,7 @@ import android.os.IBinder
 import android.util.Log
 import java.util.*
 import kotlin.concurrent.timer
+import kotlin.properties.Delegates
 
 class StopWatchService : Service() {
 
@@ -16,7 +17,9 @@ class StopWatchService : Service() {
     var sec = 0
     var msec = 0
     var time = 0
-    var isRunning = false
+    var isRunning : Boolean by Delegates.observable(false){ property, oldValue, newValue ->
+        Log.d("stopwatchservice","chagne isRunning old : $oldValue -> new : $newValue")
+    }
     lateinit var timerTask : Timer
 
     var isTimerRunning = false

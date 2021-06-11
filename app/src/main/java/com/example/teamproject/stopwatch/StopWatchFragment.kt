@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.example.teamproject.MainActivity
 import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentStopBinding
@@ -14,12 +15,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timer
+import kotlin.properties.Delegates
 
 class StopWatchFragment : Fragment() {
 
     var binding : FragmentStopBinding? = null
     lateinit var stopWatchService :StopWatchService
     var timer : Timer? = null
+
+    private val stopWatchViewModel : StopWatchViewModel by activityViewModels<StopWatchViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,16 +42,29 @@ class StopWatchFragment : Fragment() {
 
         if(activity!=null){
             stopWatchService = (activity as MainActivity).stopWatchService
-
         }else{
             Log.d("stopwatch","메인액티비티 null ")
         }
         Log.d("stopwatch","onViewCreated")
 
 
-        timer = timer(period = 10) {
-            settingTimes()
-        }
+
+
+        stopWatchViewModel.isRunning.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            Log.d("stopwatch","프래그먼트 뷰모델 isRunnig $it")
+            if (it){
+                binding?.micText?.text = getString(R.string.stop)
+                timer = timer(period = 10) {
+                    settingTimes()
+                }
+            }else{
+                binding?.micText?.text = getString(R.string.start)
+                binding?.hour?.text = stopWatchViewModel.hour.value
+                binding?.min?.text = stopWatchViewModel.min.value
+                binding?.sec?.text = stopWatchViewModel.sec.value
+                binding?.msec?.text = stopWatchViewModel.msec.value
+            }
+        })
 
         initBtn()
     }
@@ -78,6 +95,7 @@ class StopWatchFragment : Fragment() {
                     it.isEnabled = false
                     pauseBtn.isEnabled = true
                     resetBtn.isEnabled = false
+                    stopWatchViewModel.isRunning.value = stopWatchService.isRunning
                 }
             }
             pauseBtn.setOnClickListener {
@@ -87,6 +105,7 @@ class StopWatchFragment : Fragment() {
                     it.isEnabled = false
                     startBtn.isEnabled = true
                     resetBtn.isEnabled = true
+                    stopWatchViewModel.isRunning.value = stopWatchService.isRunning
                 }
             }
             resetBtn.setOnClickListener {
@@ -96,6 +115,7 @@ class StopWatchFragment : Fragment() {
                     it.isEnabled = false
                     startBtn.isEnabled = true
                     pauseBtn.isEnabled = false
+                    stopWatchViewModel.isRunning.value = stopWatchService.isRunning
                 }
             }
         }
@@ -145,6 +165,10 @@ class StopWatchFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         Log.d("stopwatch","onPause")
+        stopWatchViewModel.hour.value = binding?.hour?.text.toString()
+        stopWatchViewModel.min.value = binding?.min?.text.toString()
+        stopWatchViewModel.sec.value = binding?.sec?.text.toString()
+        stopWatchViewModel.msec.value = binding?.msec?.text.toString()
     }
 
     override fun onStop() {
