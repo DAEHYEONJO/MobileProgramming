@@ -63,11 +63,11 @@ class MainWatchFragment : Fragment() {
         TabLayoutMediator(binding!!.tabLayout,binding!!.viewPager){tab, position ->
             tab.text = tabTextArr[position]
             tab.setIcon(tabImgArr[position])
-            if (position!=0){
+            /*if (position!=0){
                 speechRecognizer?.stopListening()
             }else{
                 speechRecognizer?.startListening(speechRecognizerIntent)
-            }
+            }*/
         }.attach()
     }
 
