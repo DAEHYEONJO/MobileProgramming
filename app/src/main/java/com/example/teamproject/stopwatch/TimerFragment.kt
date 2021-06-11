@@ -133,7 +133,7 @@ class TimerFragment : Fragment() {
 
                     var totalTime = (hourPicker.value * 3600) + (minPicker.value * 60) + (secPicker.value)
                     Log.d("timerfragment", "totalTime : $totalTime stopWatchService.timerMaxTime : ${stopWatchService.timerMaxTime}")
-                    if (totalTime != 0 && (stopWatchService.timerMaxTime == 0)) {
+                    if (totalTime != 0 && (stopWatchService.timerMaxTime <= 0)) {
                         //처음 시작하는 경우
                         Log.d("timerfragment", "타이머 처음 시작하는 경우2 ")
                         if (hourPicker.value - 10 < 0) timerHour.text = "0${hourPicker.value}"
@@ -145,7 +145,7 @@ class TimerFragment : Fragment() {
                         stopWatchService.timerMaxTime = totalTime
                         stopWatchService.startTimer()
                     }
-                    if (totalTime == 0 && (stopWatchService.timerMaxTime == 0)) {
+                    if (totalTime == 0 && (stopWatchService.timerMaxTime <= 0)) {
                         //처음 시작하는데 시간 입력 안한경우
                         Toast.makeText(activity, "시간을 입력하세요", Toast.LENGTH_SHORT).show()
                     }

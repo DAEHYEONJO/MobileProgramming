@@ -33,7 +33,8 @@ class StopWatchService : Service() {
     var isTimerRunning = false
     var isTimerStarted : Boolean by Delegates.observable(false){property, oldValue, newValue ->
         Log.d("timerfragment","chagne isTimerStarted old : $oldValue -> new : $newValue")
-        if (!newValue){
+        if (!newValue && oldValue){
+            Log.d("timerfragment","타이머만료+브로드캐스트+알람")
             val broadcastIntent = Intent("com.example.TIMERFINISH")
             broadcastIntent.putExtra("finish",true)
             sendBroadcast(broadcastIntent)
