@@ -82,6 +82,7 @@
             android:layout_marginLeft="40dp"
             android:src="@drawable/ic_baseline_play_arrow_24"/>
 
+
     </LinearLayout>
 
 </LinearLayout>

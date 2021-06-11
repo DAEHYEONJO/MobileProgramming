@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.teamproject.MainActivity
+import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentStopBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,19 +53,50 @@ class StopWatchFragment : Fragment() {
     }
 
     private fun initBtn() {
+
         binding?.apply {
+            if (stopWatchService.isRunning){
+                micText.text = getString(R.string.stop)
+                startBtn.isEnabled = false
+                resetBtn.isEnabled = false
+                pauseBtn.isEnabled = true
+            }else{
+                micText.text = getString(R.string.start)
+                startBtn.isEnabled = true
+                pauseBtn.isEnabled = false
+                if (stopWatchService.time!=0){
+                    resetBtn.isEnabled = true
+                }else{
+                    resetBtn.isEnabled = false
+                }
+
+            }
             startBtn.setOnClickListener {
                 if (!stopWatchService.isRunning) {
+                    micText.text = getString(R.string.stop)
                     stopWatchService.startStopWatch()
+                    it.isEnabled = false
+                    pauseBtn.isEnabled = true
+                    resetBtn.isEnabled = false
                 }
             }
             pauseBtn.setOnClickListener {
+                micText.text = getString(R.string.start)
                 if (stopWatchService.isRunning) {
                     stopWatchService.stopStopWatch()
+                    it.isEnabled = false
+                    startBtn.isEnabled = true
+                    resetBtn.isEnabled = true
                 }
             }
             resetBtn.setOnClickListener {
-                if (!stopWatchService.isRunning) stopWatchService.resetStopWatch()
+                if (!stopWatchService.isRunning) {
+                    micText.text = getString(R.string.start)
+                    stopWatchService.resetStopWatch()
+                    it.isEnabled = false
+                    startBtn.isEnabled = true
+                    pauseBtn.isEnabled = false
+                }
             }
         }
     }

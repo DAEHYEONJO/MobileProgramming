@@ -4,4 +4,6 @@
     <string name="routine_repeat">횟수</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start">"시작" 이라고 말하세요</string>
+    <string name="stop">"그만" 이라고 말하세요</string>
 </resources>

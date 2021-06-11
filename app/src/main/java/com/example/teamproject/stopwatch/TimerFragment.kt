@@ -37,8 +37,11 @@ class TimerFragment : Fragment() {
     private fun initTimer() {
         binding?.apply {
             if (stopWatchService.isTimerRunning){
+                this.resetBtn.isEnabled = true
+                this.startPauseBtn.setBackgroundResource(R.drawable.ic_baseline_pause_24)
+            }else{
                 this.resetBtn.isEnabled = false
-
+                this.startPauseBtn.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24)
             }
         }
     }

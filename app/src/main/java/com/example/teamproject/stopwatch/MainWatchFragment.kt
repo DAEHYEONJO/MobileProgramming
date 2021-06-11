@@ -51,8 +51,9 @@ class MainWatchFragment : Fragment() {
         }else{
             Log.d("stopwatch","메인액티비티 null ")
         }
-        initViewPager()
         startStt()
+        initViewPager()
+
     }
 
 
@@ -62,6 +63,11 @@ class MainWatchFragment : Fragment() {
         TabLayoutMediator(binding!!.tabLayout,binding!!.viewPager){tab, position ->
             tab.text = tabTextArr[position]
             tab.setIcon(tabImgArr[position])
+            if (position!=0){
+                speechRecognizer?.stopListening()
+            }else{
+                speechRecognizer?.startListening(speechRecognizerIntent)
+            }
         }.attach()
     }
 
@@ -118,12 +124,16 @@ class MainWatchFragment : Fragment() {
             }
             when(resultText){
                 "시작"->{
-                    if(!stopWatchService.isRunning)
+                    if(!stopWatchService.isRunning){
                         stopWatchService.startStopWatch()
+                        //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.stop)
+                    }
+
                 }
                 "그만"->{
                     if(stopWatchService.isRunning){
                         stopWatchService.stopStopWatch()
+                        //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.start)
                     }
                 }
             }
