@@ -64,6 +64,28 @@ class Mydbhelper{
 
     }
 
+    fun getRoutineList(id:String, date :String, myCallbakclist: MyCallbakclist) { // 리싸이클러뷰와 연동할 경우 입니다. 해당 날짜에 대한 루틴정보를 읽어옵니다.
+        val docref = db.collection("Profile").document(id)
+            .collection("history").whereEqualTo("date", date)
+        docref.get()
+            .addOnSuccessListener {documents->
+                if(documents != null) {
+                    val list = ArrayList<Myroutines>()
+                    for(document in documents){
+                        val map = document.data
+                        val keys = map?.keys?.iterator()
+                        while (keys!!.hasNext()) {
+                            val key = keys?.next()
+                            list.add(Myroutines(key.toString(), map.get(key).toString()))
+                        }
+                    }
+                    myCallbakclist.onCallbacklist(list)
+                }
+
+            }
+            .addOnFailureListener {  }
+    }
+
     fun readlist(id:String, date :String , myCallbakclist: MyCallbakclist) { // 리싸이클러뷰와 연동할 경우 입니다. 해당 날짜에 대한 루틴정보를 읽어옵니다.
 
         val docref = db.collection("Profile").document(id)

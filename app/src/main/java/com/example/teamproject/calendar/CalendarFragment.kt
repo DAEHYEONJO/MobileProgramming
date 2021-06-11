@@ -27,7 +27,6 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_calendar, container, false)
-        data.add(Myroutines("test", "2"))
         init(rootView)
         fabInit(rootView)
         return rootView
@@ -46,22 +45,21 @@ class CalendarFragment : Fragment() {
         mydbhelper = Mydbhelper()
         var calendarView = rootView.findViewById<CalendarView>(R.id.calendarView)
         curr_date = LocalDate.now().toString()
-
-
         initRecyclerView(rootView)
         calendarView.setOnDateChangeListener { view, year, month, day ->
             curr_date = LocalDate.of(year, month + 1, day).toString()
-            mydbhelper.readlist("1234", curr_date, object : Mydbhelper.MyCallbakclist {
+            mydbhelper.getRoutineList("1234", curr_date, object : Mydbhelper.MyCallbakclist {
+                // todo: id 바꾸기
                 override fun onCallbacklist(value: ArrayList<Myroutines>) {
                     super.onCallbacklist(value)
                     data.clear()
-                    for(v in value){
-                        if(v.name!="date")
+                    for (v in value) {
+                        if (v.name != "date")
                             data.add(Myroutines(v.name, v.count))
                     }
+                    recyclerView.swapAdapter(CalendarAdapter(data), true)
                 }
             })
-            recyclerView.swapAdapter(CalendarAdapter(data), true)
         }
     }
 
