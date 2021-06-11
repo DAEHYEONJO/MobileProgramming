@@ -1,6 +1,10 @@
 package com.example.teamproject.stopwatch
 
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,10 +24,20 @@ import kotlin.properties.Delegates
 class StopWatchFragment : Fragment() {
 
     var binding : FragmentStopBinding? = null
-    lateinit var stopWatchService :StopWatchService
     var timer : Timer? = null
 
     private val stopWatchViewModel : StopWatchViewModel by activityViewModels<StopWatchViewModel>()
+
+    var speechRecognizer: SpeechRecognizer? = null
+    var resultText = ""
+    lateinit var stopWatchService : StopWatchService
+    private val speechRecognizerIntent by lazy {
+        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, activity?.packageName)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA)
+        }
+    }
+    private var isListening = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,16 +62,19 @@ class StopWatchFragment : Fragment() {
         Log.d("stopwatch","onViewCreated")
 
 
-
-
         stopWatchViewModel.isRunning.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("stopwatch","프래그먼트 뷰모델 isRunnig $it")
             if (it){
+                Log.d("stopwatch","프래그먼트 뷰모델 isRunnig $it")
                 binding?.micText?.text = getString(R.string.stop)
                 timer = timer(period = 10) {
                     settingTimes()
                 }
             }else{
+                Log.d("stopwatch","프래그먼트 뷰모델 isRunnig $it")
+                Log.d("stopwatch","프래그먼트 뷰모델 hour ${stopWatchViewModel.hour.value}")
+                Log.d("stopwatch","프래그먼트 뷰모델 min ${stopWatchViewModel.min.value}")
+                Log.d("stopwatch","프래그먼트 뷰모델 sec ${stopWatchViewModel.sec.value}")
+                Log.d("stopwatch","프래그먼트 뷰모델 msec ${stopWatchViewModel.msec.value}")
                 binding?.micText?.text = getString(R.string.start)
                 binding?.hour?.text = stopWatchViewModel.hour.value
                 binding?.min?.text = stopWatchViewModel.min.value
@@ -68,6 +85,83 @@ class StopWatchFragment : Fragment() {
 
         initBtn()
     }
+
+    private fun startStt() {
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context).apply {
+            setRecognitionListener(recognitionListener())
+            startListening(speechRecognizerIntent)
+        }
+    }
+
+
+    private fun recognitionListener() = object : RecognitionListener {
+        override fun onReadyForSpeech(params: Bundle?) {
+            isListening = true
+            Log.d("stopwatch","음성인식 시작 !!!!!!!!음성인식 시작 !!!!!!!!음성인식 시작 !!!!!!!!음성인식 시작 !!!!!!!!")
+        }
+
+        override fun onRmsChanged(rmsdB: Float) {
+        }
+
+        override fun onBufferReceived(buffer: ByteArray?) {
+        }
+
+        override fun onPartialResults(partialResults: Bundle?) {
+        }
+
+        override fun onEvent(eventType: Int, params:Bundle?) {
+        }
+
+        override fun onBeginningOfSpeech() {
+        }
+
+        override fun onEndOfSpeech() {
+        }
+
+        override fun onError(error: Int) {
+            when(error){
+                SpeechRecognizer.ERROR_AUDIO->{Log.e("stt","ERROR_AUDIO")}
+                SpeechRecognizer.ERROR_CLIENT->{Log.e("stt","ERROR_CLIENT")}
+                SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS->{Log.e("stt","ERROR_INSUFFICIENT_PERMISSIONS")}
+                SpeechRecognizer.ERROR_NETWORK->{Log.e("stt","ERROR_NETWORK")}
+                SpeechRecognizer.ERROR_NETWORK_TIMEOUT->{Log.e("stt","ERROR_NETWORK_TIMEOUT")}
+                SpeechRecognizer.ERROR_NO_MATCH->{Log.e("stt","ERROR_NO_MATCH")}
+                SpeechRecognizer.ERROR_RECOGNIZER_BUSY->{Log.e("stt","ERROR_RECOGNIZER_BUSY")}
+                SpeechRecognizer.ERROR_SERVER->{Log.e("stt","ERROR_SERVER")}
+                SpeechRecognizer.ERROR_SPEECH_TIMEOUT->{Log.e("stt","ERROR_SPEECH_TIMEOUT")}
+            }
+            speechRecognizer?.startListening(speechRecognizerIntent)
+        }
+
+        override fun onResults(results: Bundle?) {
+            resultText = ""
+            results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.forEach {
+                Log.d("sttresult",it)
+                resultText+=it
+            }
+            when(resultText){
+                "시작"->{
+                    if(!stopWatchService.isRunning){
+                        stopWatchService.startStopWatch()
+                        //StopWatchFragment().binding?.micText?.text = getString(R.string.stop)
+                        //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.stop)
+                    }
+
+                }
+                "그만"->{
+                    if(stopWatchService.isRunning){
+                        stopWatchService.stopStopWatch()
+                        //StopWatchFragment().binding?.micText?.text = getString(R.string.start)
+                        //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.start)
+                    }
+                }
+            }
+            stopWatchViewModel.isRunning.value = stopWatchService.isRunning
+            speechRecognizer?.startListening(speechRecognizerIntent)
+        }
+    }
+
+
 
     private fun initBtn() {
 
@@ -160,6 +254,7 @@ class StopWatchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("stopwatch","onResume")
+        startStt()
     }
 
     override fun onPause() {
@@ -169,6 +264,11 @@ class StopWatchFragment : Fragment() {
         stopWatchViewModel.min.value = binding?.min?.text.toString()
         stopWatchViewModel.sec.value = binding?.sec?.text.toString()
         stopWatchViewModel.msec.value = binding?.msec?.text.toString()
+        if (speechRecognizer!=null && isListening){
+            speechRecognizer!!.stopListening()
+            speechRecognizer = null
+            isListening = false
+        }
     }
 
     override fun onStop() {
@@ -189,6 +289,8 @@ class StopWatchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         Log.d("stopwatch","onDestroyView")
+        speechRecognizer?.stopListening()
+        speechRecognizer = null
         timer?.cancel()
         timer?.purge()
         timer = null

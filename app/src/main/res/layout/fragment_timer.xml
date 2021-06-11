@@ -8,6 +8,7 @@
     tools:context=".stopwatch.TimerFragment">
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/picker_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -50,8 +51,58 @@
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:textSize="20sp"/>
+    </LinearLayout>
 
-
+    <LinearLayout
+        android:id="@+id/timer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:padding="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/timer_hour"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="60sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="00"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="60sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text=":"/>
+        <TextView
+            android:id="@+id/timer_min"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="60sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="00"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="60sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text=":"/>
+        <TextView
+            android:id="@+id/timer_sec"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="60sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="00"/>
     </LinearLayout>
 
     <LinearLayout
@@ -69,20 +120,27 @@
             app:borderWidth="0dp"
             app:fabCustomSize="50dp"
             android:tint="@null"
-            android:backgroundTint="@color/cancel"
+            android:backgroundTint="@color/stop"
             android:src="@drawable/ic_baseline_clear_24"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/start_pause_btn"
+            android:id="@+id/pause_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:borderWidth="0dp"
             app:fabCustomSize="50dp"
-            android:backgroundTint="@color/play"
+            android:backgroundTint="@color/cancel"
+            android:src="@drawable/ic_baseline_pause_24"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/start_btn"
+            android:layout_width="50dp"
             android:layout_marginLeft="40dp"
-            android:src="@drawable/ic_baseline_play_arrow_24"/>
-
-
+            app:borderWidth="0dp"
+            app:fabCustomSize="50dp"
+            android:backgroundTint="@color/play"
+            android:src="@drawable/ic_baseline_play_arrow_24"
+            android:layout_height="50dp"/>
     </LinearLayout>
 
 </LinearLayout>

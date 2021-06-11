@@ -1,5 +1,6 @@
 package com.example.teamproject.stopwatch
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
