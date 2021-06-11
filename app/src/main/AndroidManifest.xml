@@ -20,6 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".stopwatch.StopWatchService"
+            android:enabled="true"
+            android:exported="true"></service>
         <activity android:name=".AddRoutineActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".Example" />
