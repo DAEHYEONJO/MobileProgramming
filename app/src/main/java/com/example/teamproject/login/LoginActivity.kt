@@ -7,11 +7,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.teamproject.MainActivity
+import com.example.teamproject.Mydbhelper
 import com.example.teamproject.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
+    lateinit var mydbhelper: Mydbhelper // db에도 정보를 넣기 위해서 선언해주었습니다.
     lateinit var binding: ActivityLoginBinding
     lateinit var auth:FirebaseAuth
     lateinit var signupInfo: signupInfo
@@ -184,6 +186,17 @@ class LoginActivity : AppCompatActivity() {
                                         .setValue(signupInfo).addOnCompleteListener {
                                             if(it.isSuccessful){
                                                 Toast.makeText(this@LoginActivity,"등록 성공",Toast.LENGTH_SHORT).show()
+
+                                                // 회원가입 성공후 db에 따로 넣어주는 작업입니다.
+                                                mydbhelper = Mydbhelper()
+                                                val exam = hashMapOf(
+                                                        "name" to signupInfo.nickname,
+                                                        "id" to FirebaseAuth.getInstance().currentUser!!.uid,
+                                                        "gender" to signupInfo.gender
+                                                )
+                                                mydbhelper.addprofile(exam)
+                                                // 파이어스토어상에서는 정상적으로 연동되는거 확인했습니다.
+
                                                 initSignup()
                                             }
                                         }
