@@ -10,8 +10,8 @@
         android:title="three"
         android:icon="@drawable/ic_launcher_foreground"/>
     <item android:id="@+id/bottom_four"
-        android:title="four"
-        android:icon="@drawable/ic_launcher_foreground"/>
+        android:title="프로필"
+        android:icon="@drawable/ic_baseline_person_pin_24"/>
     <item android:id="@+id/bottom_stop_watch"
         android:title="스톱워치"
         android:icon="@drawable/ic_baseline_timer_24"/>

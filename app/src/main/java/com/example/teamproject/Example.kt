@@ -30,7 +30,7 @@ class Example :AppCompatActivity() {
 
         val exam = hashMapOf(
                 "name" to "김준우",
-                "id" to 1234, // 해당 아이디는 회원가입을 통해서 받아오는 아이디 입니다. 예시를 보여야 하므로 임의로 정해주었습니다.
+                "id" to "1234", // 해당 아이디는 회원가입을 통해서 받아오는 아이디 입니다. 예시를 보여야 하므로 임의로 정해주었습니다.
                 "state" to "df",
                 "country" to "asdf"
         )
@@ -69,7 +69,7 @@ class Example :AppCompatActivity() {
 
 
 
-        mydbhelper.read("1234", object : Mydbhelper.MyCallback {
+        mydbhelper.readname("1234", object : Mydbhelper.MyCallback {
             override fun onCallback(value: String) { // mydbhelper의 oncallbakc을 오버라읻 하여서 다음과 같이
                 //원하는 형태로 값을 받아오면 됩니다. 현재는 하나의 문자열만 받아오는 형태입니다.
                 super.onCallback(value)

@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.teamproject.calendar.CalendarFragment
 import com.example.teamproject.databinding.ActivityMainBinding
+import com.example.teamproject.myprofile.Profile
 import com.example.teamproject.stopwatch.MainWatchFragment
 import com.example.teamproject.stopwatch.StopWatchService
 import com.example.teamproject.stopwatch.StopWatchViewModel
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private val mainWatchFragment by lazy { MainWatchFragment() }
     private val testFragment by lazy { TestFragment() }
     private val videoItemFragment by lazy { VideoItemFragment() }
+    private val ProfileFragment by lazy { Profile() }
     private val CalendarFragment by lazy { CalendarFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(videoItemFragment)
                     return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_four->{
-                    replaceFragment(testFragment)
+                    replaceFragment(ProfileFragment)
                     return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_stop_watch->{
                     replaceFragment(mainWatchFragment)
