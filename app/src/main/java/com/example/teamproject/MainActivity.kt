@@ -16,6 +16,7 @@ import com.example.teamproject.calendar.CalendarFragment
 import com.example.teamproject.databinding.ActivityMainBinding
 import com.example.teamproject.stopwatch.MainWatchFragment
 import com.example.teamproject.stopwatch.StopWatchService
+import com.example.teamproject.video.VideoItemFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private val mainWatchFragment by lazy { MainWatchFragment() }
     private val testFragment by lazy { TestFragment() }
+    private val videoItemFragment by lazy { VideoItemFragment() }
     private val CalendarFragment by lazy { CalendarFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +70,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.bottom_two->{
                     replaceFragment(CalendarFragment)
                     return@setOnNavigationItemSelectedListener true }
-                R.id.bottom_three->{ return@setOnNavigationItemSelectedListener true }
+                R.id.bottom_three->{
+                    replaceFragment(videoItemFragment)
+                    return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_four->{
                     replaceFragment(testFragment)
                     return@setOnNavigationItemSelectedListener true }

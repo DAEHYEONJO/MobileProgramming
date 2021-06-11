@@ -5,9 +5,6 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timer
 
@@ -19,8 +16,10 @@ class StopWatchService : Service() {
     var sec = 0
     var msec = 0
     var time = 0
-    var isRunnig = false
+    var isRunning = false
     lateinit var timerTask : Timer
+
+    var isTimerRunning = false
 
 
     override fun onBind(intent: Intent): IBinder {
@@ -39,7 +38,7 @@ class StopWatchService : Service() {
     }
 
     fun startStopWatch(){
-        isRunnig = true
+        isRunning = true
         timerTask = timer(period = 10){
             time ++
             hour = time/360000
@@ -52,11 +51,11 @@ class StopWatchService : Service() {
     }
 
     fun stopStopWatch(){
-        if (isRunnig){
+        if (isRunning){
             Log.d("stopwatchservice","stopStopWatch")
             timerTask.cancel()
             timerTask.purge()
-            isRunnig = false
+            isRunning = false
         }
     }
 
