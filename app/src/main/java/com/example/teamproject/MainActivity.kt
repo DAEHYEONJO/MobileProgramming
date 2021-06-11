@@ -37,6 +37,17 @@ class MainActivity : AppCompatActivity() {
             Log.d("stopwatch","onServiceConnected")
             val binder = service as StopWatchService.Mybinder
             stopWatchService = binder.getService()
+            val str=intent.getStringExtra("timerExpire")
+            if(str!=null){
+                if (str == "te"){
+                    if (binding.bottomNavi.selectedItemId != R.id.bottom_stop_watch){
+                        binding.bottomNavi.selectedItemId = R.id.bottom_stop_watch
+                        if (stopWatchService.isRunning){
+                            stopWatchViewModel.isRunning.value = true
+                        }
+                    }
+                }
+            }
         }
     }
     private val stopWatchViewModel : StopWatchViewModel by viewModels()
@@ -49,8 +60,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("mainactivity","onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         requestPermission()//stt 기능을 위해 RECORD_AUDIO 권한 요청
         initService()
@@ -118,8 +132,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("mainactivity","onResume")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("mainactivity","onPause")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("mainactivity","onDestroy")
         if(bound){
             stopWatchService.unbindService(connection)
         }
