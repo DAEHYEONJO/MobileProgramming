@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.example.teamproject.calendar.CalendarFragment
 import com.example.teamproject.databinding.ActivityMainBinding
 import com.example.teamproject.stopwatch.MainWatchFragment
 import com.example.teamproject.stopwatch.StopWatchService
+import com.example.teamproject.stopwatch.StopWatchViewModel
 import com.example.teamproject.video.VideoItemFragment
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             stopWatchService = binder.getService()
         }
     }
+    private val stopWatchViewModel : StopWatchViewModel by viewModels()
 
     private val mainWatchFragment by lazy { MainWatchFragment() }
     private val testFragment by lazy { TestFragment() }
