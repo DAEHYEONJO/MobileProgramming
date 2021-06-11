@@ -42,6 +42,7 @@ class AddRoutineActivity : AppCompatActivity() {
         val cancelBtn = findViewById<Button>(R.id.cancel_btn)
 
         val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
 
         routine_count.setText("10")
         plus_btn.setOnClickListener {

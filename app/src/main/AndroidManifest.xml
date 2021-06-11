@@ -17,8 +17,7 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name=".AddRoutineActivity" />
-        <activity android:name=".CalendarActivity" />
+        <activity android:name=".calendar.AddRoutineActivity" />
         <activity android:name=".Example" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -65,10 +65,10 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavi.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.bottom_one->{ return@setOnNavigationItemSelectedListener true }
-                R.id.bottom_two->{return@setOnNavigationItemSelectedListener true }
-                R.id.bottom_three->{
+                R.id.bottom_two->{
                     replaceFragment(CalendarFragment)
                     return@setOnNavigationItemSelectedListener true }
+                R.id.bottom_three->{ return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_four->{
                     replaceFragment(testFragment)
                     return@setOnNavigationItemSelectedListener true }
