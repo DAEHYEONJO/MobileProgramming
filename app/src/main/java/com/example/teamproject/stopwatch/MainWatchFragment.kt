@@ -1,10 +1,7 @@
 package com.example.teamproject.stopwatch
 
-import android.content.ComponentName
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
@@ -13,8 +10,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
 import com.example.teamproject.MainActivity
 import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentMainWatchBinding
@@ -56,8 +51,9 @@ class MainWatchFragment : Fragment() {
         }else{
             Log.d("stopwatch","메인액티비티 null ")
         }
-        initViewPager()
         startStt()
+        initViewPager()
+
     }
 
 
@@ -67,6 +63,11 @@ class MainWatchFragment : Fragment() {
         TabLayoutMediator(binding!!.tabLayout,binding!!.viewPager){tab, position ->
             tab.text = tabTextArr[position]
             tab.setIcon(tabImgArr[position])
+            /*if (position!=0){
+                speechRecognizer?.stopListening()
+            }else{
+                speechRecognizer?.startListening(speechRecognizerIntent)
+            }*/
         }.attach()
     }
 
@@ -123,12 +124,16 @@ class MainWatchFragment : Fragment() {
             }
             when(resultText){
                 "시작"->{
-                    if(!stopWatchService.isRunnig)
+                    if(!stopWatchService.isRunning){
                         stopWatchService.startStopWatch()
+                        //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.stop)
+                    }
+
                 }
                 "그만"->{
-                    if(stopWatchService.isRunnig){
+                    if(stopWatchService.isRunning){
                         stopWatchService.stopStopWatch()
+                        //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.start)
                     }
                 }
             }
