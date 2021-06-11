@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                         binding.bottomNavi.selectedItemId = R.id.bottom_stop_watch
                         if (stopWatchService.isRunning){
                             stopWatchViewModel.isRunning.value = true
+                            stopWatchService.isTimerStarted = false
                         }
                     }
                 }
