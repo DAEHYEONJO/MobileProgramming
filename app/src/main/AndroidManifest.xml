@@ -31,6 +31,8 @@
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout">
 
         </activity>
+
+        <receiver android:name=".alarm.AlarmReceiver" />
     </application>
 
 </manifest>

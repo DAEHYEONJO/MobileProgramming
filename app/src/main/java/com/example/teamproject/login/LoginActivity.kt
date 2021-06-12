@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
                 val intent= Intent(this@LoginActivity,
                     MainActivity::class.java)
                 //startActivity(intent)
-                finish()
+                //finish()
                 login()
             }
 
@@ -64,6 +64,17 @@ class LoginActivity : AppCompatActivity() {
         binding.apply {
             var email=emailText.text.toString()
             var pw=pwText.text.toString()
+            if(checkEmailLogin==0){
+                return
+            }
+            if(pw.isEmpty()){
+                loginEmailInputLayout.setError("비밀번호가 필요합니다.")
+                loginEmailInputLayout.requestFocus()
+                return
+            }else{
+                loginEmailInputLayout.error=null
+            }
+
             progressBar.visibility=View.VISIBLE
             auth.signInWithEmailAndPassword(email,pw).addOnCompleteListener {
                 if(it.isSuccessful){
@@ -84,10 +95,10 @@ class LoginActivity : AppCompatActivity() {
         binding.apply {
             emailText.addTextChangedListener {
                 if(it.toString().contains('@')&&it.toString().contains('.')){
-                    textInputLayout.error=null
+                    loginEmailInputLayout.error=null
                     checkEmailLogin=1
                 }else{
-                    textInputLayout.error="이메일 형식이 올바르지 않습니다."
+                    loginEmailInputLayout.error="이메일 형식이 올바르지 않습니다."
                     checkEmailLogin=0
                 }
             }
