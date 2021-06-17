@@ -8,14 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.teamproject.Myroutines
 import com.example.teamproject.R
 
-class CalendarAdapter(val items: ArrayList<Myroutines>) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>(){
+
+class CalendarAdapter(val items: ArrayList<Myroutines>) :
+    RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
     private var files: ArrayList<Myroutines>? = items
 
     override fun getItemViewType(position: Int): Int {
         return position
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.calendar_routine_item, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.calendar_routine_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -25,7 +29,7 @@ class CalendarAdapter(val items: ArrayList<Myroutines>) : RecyclerView.Adapter<C
 
     override fun onBindViewHolder(holder: CalendarAdapter.ViewHolder, position: Int) {
         val current = files?.get(position)
-        if(current!=null){
+        if (current != null) {
             holder.calendar_routine_name.text = current.name
             holder.calendar_routine_count.text = current.count
         }

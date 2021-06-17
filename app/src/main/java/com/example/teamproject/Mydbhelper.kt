@@ -49,6 +49,11 @@ class Mydbhelper{
         }
     }
 
+    interface MyCallBackExist{
+        fun onCallBackExist(value:Boolean){
+
+        }
+    }
 
     fun read(id: String, myCallback: MyCallback) { // 단순하게 하나의 요소만 읽을 경우 입니다.
         db.collection("Profile").document(id) /// document 아이디는 회원가입에서 생성된 아이디가 될것입니다.
@@ -91,7 +96,18 @@ class Mydbhelper{
     }
 
 
-
+    fun existRoutine(id: String, date: String, myCallbackExist: MyCallBackExist) {
+        db.collection("Profile").document(id)
+            .collection("history").whereEqualTo("date", date)
+            .get()
+            .addOnSuccessListener {
+                if (it.isEmpty) {
+                    myCallbackExist.onCallBackExist(false)
+                }else{
+                    myCallbackExist.onCallBackExist(true)
+                }
+            }
+    }
 
     fun getRoutineList(id:String, date :String, myCallbakclist: MyCallbakclist) { // 리싸이클러뷰와 연동할 경우 입니다. 해당 날짜에 대한 루틴정보를 읽어옵니다.
         val docref = db.collection("Profile").document(id)

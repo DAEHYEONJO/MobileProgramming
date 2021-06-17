@@ -13,6 +13,7 @@ import com.example.teamproject.Mydbhelper
 import com.example.teamproject.Myroutines
 import com.example.teamproject.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
 
 class CalendarFragment : Fragment() {
@@ -42,24 +43,27 @@ class CalendarFragment : Fragment() {
     }
 
     private fun init(rootView: View) {
+        var user_id = FirebaseAuth.getInstance().currentUser!!.uid
         mydbhelper = Mydbhelper()
         var calendarView = rootView.findViewById<CalendarView>(R.id.calendarView)
         curr_date = LocalDate.now().toString()
         initRecyclerView(rootView)
-        calendarView.setOnDateChangeListener { view, year, month, day ->
+        calendarView.setOnDateChangeListener { _, year, month, day ->
             curr_date = LocalDate.of(year, month + 1, day).toString()
-            mydbhelper.getRoutineList("1234", curr_date, object : Mydbhelper.MyCallbakclist {
-                // todo: id 바꾸기
+            mydbhelper.getRoutineList(user_id, curr_date, object : Mydbhelper.MyCallbakclist {
                 override fun onCallbacklist(value: ArrayList<Myroutines>) {
                     super.onCallbacklist(value)
                     data.clear()
+
                     for (v in value) {
                         if (v.name != "date")
                             data.add(Myroutines(v.name, v.count))
                     }
-                    recyclerView.swapAdapter(CalendarAdapter(data), true)
+
+                    recyclerView.adapter?.notifyDataSetChanged()
                 }
             })
+
         }
     }
 
