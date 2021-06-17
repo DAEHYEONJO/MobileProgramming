@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.teamproject.MainActivity
 import com.example.teamproject.Mydbhelper
+import com.example.teamproject.alarm.AlarmService
 import com.example.teamproject.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -20,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private var gender=""
     private var checkEmail=0
     private var checkEmailLogin=0
+    lateinit var alarmService: AlarmService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityLoginBinding.inflate(layoutInflater)
@@ -33,6 +35,8 @@ class LoginActivity : AppCompatActivity() {
     private fun init(){
         auth= FirebaseAuth.getInstance()
         binding.apply {
+
+
             if(auth.currentUser!=null){ //로그인 된 상태면 바로 메인으로 이동
                 val intent=Intent(this@LoginActivity,MainActivity::class.java)
                 startActivity(intent)
