@@ -10,11 +10,17 @@ import android.graphics.Color
 import androidx.core.app.NotificationCompat
 import com.example.teamproject.R
 import com.example.teamproject.login.LoginActivity
+import java.util.*
 
 class AlarmReceiver:BroadcastReceiver() {
     lateinit var pendingIntent: PendingIntent
+    var saylist : ArrayList<String> = ArrayList()
+
     //lateinit var builder:NotificationCompat.Builder
     override fun onReceive(context: Context?, intent: Intent?) {
+        val scan = Scanner(context?.resources?.openRawResource(R.raw.sayings)) // saylist 내부의 파일에서 텍스트를 읽어옵니다.
+        readFileScan(scan) // 해당 함수에서는 읽어온 명언을 저장합니다.
+
         var channelID =""
         var code= 0
         var name=""
@@ -47,20 +53,20 @@ class AlarmReceiver:BroadcastReceiver() {
             notificationManager.notify(code, builder.build())
             return
         }
-        else if(type ==1){//매일 받는 알람
-            val text=intent?.getStringExtra("content")
-            pendingIntent=PendingIntent.getActivity(context,100,i,PendingIntent.FLAG_UPDATE_CURRENT)
-            val builder=NotificationCompat.Builder(context,"everyday")
+        else if(type ==1) {//매일 받는 알람
+            val text = intent?.getStringExtra(saylist[Random().nextInt(saylist.size)]) // 랜덤으로 명언집의 내용중 하나를 내용으로 설정합니다.
+            pendingIntent = PendingIntent.getActivity(context, 100, i, PendingIntent.FLAG_UPDATE_CURRENT)
+            val builder = NotificationCompat.Builder(context, "everyday")
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.ic_baseline_timer_24)
                     .setContentTitle("title")
                     .setContentText(text)
                     .setAutoCancel(true)
-            channelID ="everyday"
-            code= 100
-            name="everydayAlarm"
+            channelID = "everyday"
+            code = 100
+            name = "everydayAlarm"
             builder.setChannelId("everyday")
-            val notificationChannel=NotificationChannel("everyday","everydayAlarm",NotificationManager.IMPORTANCE_DEFAULT)
+            val notificationChannel = NotificationChannel("everyday", "everydayAlarm", NotificationManager.IMPORTANCE_DEFAULT)
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.enableVibration(true);
@@ -69,9 +75,15 @@ class AlarmReceiver:BroadcastReceiver() {
 
             notificationManager.notify(100, builder.build())
         }
-
-
-
     }
+
+    fun readFileScan(scan: Scanner){
+        while(scan.hasNextLine()){
+            val word = scan.nextLine()
+            saylist.add(word)
+        }
+        scan.close()
+    }
+
 
 }
