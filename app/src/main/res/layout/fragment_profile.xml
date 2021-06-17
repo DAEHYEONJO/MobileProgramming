@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/progressbar2"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,19 +40,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:layout_gravity="center_vertical"
         android:background="@drawable/layout_border"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/until"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:layout_margin="5dp"
+            android:layout_weight="0"
             android:fontFamily="@font/nanumbarungothicbold"
             android:gravity="center"
             android:text="지금까지 운동을 완료한 횟수는? "
@@ -62,12 +62,19 @@
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="25sp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:fontFamily="@font/nanumbarungothicbold"
-            android:text="지금까지" />
+            android:text="지금까지"
+            android:textSize="25sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
 
         <TextView
             android:id="@+id/routinedays"
@@ -83,23 +90,23 @@
             android:id="@+id/complete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="25sp"
-            android:gravity="right"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:fontFamily="@font/nanumbarungothicbold"
-            android:text="완료했습니다!" />
+            android:gravity="right"
+            android:text="동안 운동중!"
+            android:textSize="25sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="70dp"
         android:layout_weight="1"
         android:background="@drawable/layout_border"
         android:orientation="vertical">
@@ -108,21 +115,21 @@
             android:id="@+id/todaysay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:layout_margin="5dp"
-            android:gravity="center"
             android:fontFamily="@font/nanumbarungothicbold"
-            android:text="동기부여 명언" />
+            android:gravity="center"
+            android:text="동기부여 명언"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/sayingtext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:textSize="30sp"
             android:fontFamily="@font/nanumbarungothicbold"
             android:gravity="center"
             android:text="TextView"
+            android:textSize="30sp"
             app:autoSizeTextType="uniform" />
 
         <TextView
