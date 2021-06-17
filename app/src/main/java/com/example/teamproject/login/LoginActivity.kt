@@ -35,8 +35,8 @@ class LoginActivity : AppCompatActivity() {
     private fun init(){
         auth= FirebaseAuth.getInstance()
         binding.apply {
-
-
+            val alarm=AlarmService(this@LoginActivity)
+            alarm.everydayAlarm()
             if(auth.currentUser!=null){ //로그인 된 상태면 바로 메인으로 이동
                 val intent=Intent(this@LoginActivity,MainActivity::class.java)
                 startActivity(intent)

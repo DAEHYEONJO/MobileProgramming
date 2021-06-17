@@ -38,7 +38,6 @@ class AlarmReceiver:BroadcastReceiver() {
                     .setContentTitle("title")
                     .setContentText("오늘 운동 일정이 있어요!")
                     .setAutoCancel(true)
-
             channelID ="specificday"
             code= requestCode
             name="specificdayAlarm"
@@ -54,7 +53,7 @@ class AlarmReceiver:BroadcastReceiver() {
             return
         }
         else if(type ==1) {//매일 받는 알람
-            val text = intent?.getStringExtra(saylist[Random().nextInt(saylist.size)]) // 랜덤으로 명언집의 내용중 하나를 내용으로 설정합니다.
+            val text = saylist[Random().nextInt(saylist.size)] // 랜덤으로 명언집의 내용중 하나를 내용으로 설정합니다.
             pendingIntent = PendingIntent.getActivity(context, 100, i, PendingIntent.FLAG_UPDATE_CURRENT)
             val builder = NotificationCompat.Builder(context, "everyday")
                     .setContentIntent(pendingIntent)
@@ -62,9 +61,6 @@ class AlarmReceiver:BroadcastReceiver() {
                     .setContentTitle("title")
                     .setContentText(text)
                     .setAutoCancel(true)
-            channelID = "everyday"
-            code = 100
-            name = "everydayAlarm"
             builder.setChannelId("everyday")
             val notificationChannel = NotificationChannel("everyday", "everydayAlarm", NotificationManager.IMPORTANCE_DEFAULT)
             notificationChannel.enableLights(true);
