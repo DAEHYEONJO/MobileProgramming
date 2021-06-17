@@ -17,6 +17,7 @@ import com.example.teamproject.MainActivity
 import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentMainWatchBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 class MainWatchFragment : Fragment() {
@@ -31,15 +32,27 @@ class MainWatchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         Log.d("mainwatchfragment","onCreateView")
+
+        initExeList()
+
         binding = FragmentMainWatchBinding.inflate(layoutInflater,container,false)
         return binding?.root
+    }
+
+    private fun initExeList() {
+        val db = FirebaseFirestore.getInstance()
+        val exeCollection = db.collection("ExeList")
+        val exeDb = exeCollection.document("hi4")
+        exeCollection.get().addOnSuccessListener {
+            for (doc in it){
+                Log.d("dsfdsa","exe name : ${doc.id}")
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("mainwatchfragment","onViewCreated")
-
-
         initViewPager()
 
     }
