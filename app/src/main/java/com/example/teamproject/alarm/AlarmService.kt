@@ -26,7 +26,7 @@ class AlarmService (private val context: Context){
     private fun setAlarm(year:Int,month:Int,day:Int){
         val calendar= Calendar.getInstance()
         calendar.set(Calendar.YEAR,year)
-        calendar.set(Calendar.MONTH,month) //1월이 0임
+        calendar.set(Calendar.MONTH,month-1) //1월이 0임
         calendar.set(Calendar.DAY_OF_MONTH,day)
         calendar.set(Calendar.HOUR_OF_DAY,20)
         calendar.set(Calendar.MINUTE,30)
