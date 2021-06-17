@@ -8,8 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import androidx.core.app.NotificationCompat
-import com.example.teamproject.MainActivity
 import com.example.teamproject.R
+import com.example.teamproject.login.LoginActivity
 
 class AlarmReceiver:BroadcastReceiver() {
     lateinit var pendingIntent: PendingIntent
@@ -19,7 +19,7 @@ class AlarmReceiver:BroadcastReceiver() {
         var code= 0
         var name=""
         val notificationManager=context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val i = Intent(context, MainActivity::class.java)
+        val i = Intent(context, LoginActivity::class.java) //알람 누르면 login 화면으로 이동
         i.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
 
         val type=intent?.getIntExtra("type",-1)
