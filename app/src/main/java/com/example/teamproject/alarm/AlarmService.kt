@@ -9,7 +9,7 @@ import java.util.*
 
 class AlarmService (private val context: Context){
 
-    private fun everydayAlarm(){
+    private fun everydayAlarm(content:String){
         val calendar= Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY,18)
         calendar.set(Calendar.MINUTE,30)
@@ -17,7 +17,7 @@ class AlarmService (private val context: Context){
         calendar.set(Calendar.MILLISECOND,0)
         val intent= Intent(context.applicationContext,AlarmReceiver::class.java)
         intent.putExtra("type",0)
-        intent.putExtra("content","내용") // 매일 보내질 알람의 내용 설정!
+        intent.putExtra("content",content) // 매일 보내질 알람의 내용 설정!
         val pendingIntent= PendingIntent.getBroadcast(context.applicationContext,100,intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager=context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.timeInMillis, AlarmManager.INTERVAL_DAY,pendingIntent)
