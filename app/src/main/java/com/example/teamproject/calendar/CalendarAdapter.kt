@@ -32,6 +32,7 @@ class CalendarAdapter(val items: ArrayList<Myroutines>) :
 
     override fun onBindViewHolder(holder: CalendarAdapter.ViewHolder, position: Int) {
         val current = files?.get(position)
+        holder.curr_date = items[1].count
         if (validationCheck(current)) {
             holder.calendar_routine_name.text = current?.name
             holder.calendar_routine_count.text = current?.count
