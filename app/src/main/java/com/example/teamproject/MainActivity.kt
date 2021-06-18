@@ -16,10 +16,10 @@ import androidx.fragment.app.Fragment
 import com.example.teamproject.calendar.CalendarFragment
 import com.example.teamproject.databinding.ActivityMainBinding
 import com.example.teamproject.myprofile.Profile
-import com.example.teamproject.stopwatch.MainWatchFragment
-import com.example.teamproject.stopwatch.StopWatchService
-import com.example.teamproject.stopwatch.StopWatchViewModel
+import com.example.teamproject.stopwatch.*
 import com.example.teamproject.video.VideoItemFragment
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private val stopWatchViewModel : StopWatchViewModel by viewModels()
+    private val exeNameDbHelper = ExeNameDbHelper(this)
 
     private val mainWatchFragment by lazy { MainWatchFragment() }
     private val testFragment by lazy { TestFragment() }
@@ -70,7 +71,6 @@ class MainActivity : AppCompatActivity() {
         requestPermission()//stt 기능을 위해 RECORD_AUDIO 권한 요청
         initService()
         bottomNaviInit()
-
         //binding.button.setOnClickListener {
         //    val intent = Intent(this, Example::class.java)
         //    startActivity(intent) /// db 예시 화면으로 갑니다.
