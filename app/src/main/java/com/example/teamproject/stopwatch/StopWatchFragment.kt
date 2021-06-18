@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.teamproject.MainActivity
 import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentStopBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,13 +40,24 @@ class StopWatchFragment : Fragment() {
     }
     private var isListening = false
 
+    private fun initExeList() {
+        val db = FirebaseFirestore.getInstance()
+        val exeCollection = db.collection("ExeList")
+        val exeDb = exeCollection.document("hi4")
+        exeCollection.get().addOnSuccessListener {
+            for (doc in it){
+                Log.d("dsfdsa","exe name : ${doc.id}")
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         Log.d("stopwatch","onCreateView")
-
+        initExeList()
         binding = FragmentStopBinding.inflate(layoutInflater,container,false)
         // Inflate the layout for this fragment
         return binding!!.root
