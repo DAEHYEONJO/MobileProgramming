@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.teamproject.MainActivity
 import com.example.teamproject.Mydbhelper
 import com.example.teamproject.R
+import com.example.teamproject.alarm.AlarmService
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 class AddRoutineActivity : AppCompatActivity() {
     lateinit var mydbhelper: Mydbhelper
     lateinit var selected_date: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_routine)
@@ -26,6 +28,7 @@ class AddRoutineActivity : AppCompatActivity() {
 
     private fun init() {
         selected_date = intent.getStringExtra("date").toString()
+        val alarm=AlarmService(this@AddRoutineActivity)
 
         mydbhelper = Mydbhelper()
         val routine_count = findViewById<EditText>(R.id.routine_count)
@@ -72,12 +75,22 @@ class AddRoutineActivity : AppCompatActivity() {
                                         } else {
                                             mydbhelper.updateroutine(user_id, data)
                                             makeToast("루틴이 등록되었습니다.")
+                                            alarm.setAlarm(
+                                                selected_date.substring(0, 4).toInt(),//2021
+                                                selected_date.substring(5, 7).toInt(),//6
+                                                selected_date.substring(8, 10).toInt()//18
+                                            )
                                             startActivity(intent)
                                         }
                                     }
                                 })
                         } else {
                             mydbhelper.addroutine(user_id, data)
+                            alarm.setAlarm(
+                                selected_date.substring(0, 4).toInt(),//2021
+                                selected_date.substring(5, 7).toInt(),//6
+                                selected_date.substring(8, 10).toInt()//18
+                            )
                             makeToast("루틴이 등록되었습니다.")
                             startActivity(intent)
                         }

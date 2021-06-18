@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.teamproject.Mydbhelper
 import com.example.teamproject.Myroutines
 import com.example.teamproject.R
+import com.example.teamproject.alarm.AlarmService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
@@ -30,6 +31,7 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_calendar, container, false)
+
         init(rootView)
         fabInit(rootView)
         resetButtonInit(rootView)
@@ -38,7 +40,13 @@ class CalendarFragment : Fragment() {
 
     private fun resetButtonInit(rootView: View) {
         val reset_button = rootView.findViewById<Button>(R.id.calendar_routine_reset_button)
+        val alarm= AlarmService(this.requireContext())
         reset_button.setOnClickListener {
+            alarm.cancelAlarm(
+                curr_date.substring(0, 4).toInt(),//2021
+                curr_date.substring(5, 7).toInt(),//6
+                curr_date.substring(8, 10).toInt()//18
+            )
             mydbhelper.deleteallroutine(user_id, curr_date)
             data.clear()
             recyclerView.adapter?.notifyDataSetChanged()
