@@ -31,7 +31,7 @@ class Mydbhelper{
                 .collection("history").document(date).delete()
     }
 
-    fun deletroutine(id:String, date:String, routine:String){ // 루틴 하나만 삭제
+    fun deleteroutine(id:String, date:String, routine:String){ // 루틴 하나만 삭제
         val docref=db.collection("Profile").document(id)
                 .collection("history").document(date)
         val updates= hashMapOf<String,Any>(routine to FieldValue.delete())
