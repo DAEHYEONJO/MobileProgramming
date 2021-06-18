@@ -32,7 +32,9 @@ class CalendarAdapter(val items: ArrayList<Myroutines>) :
 
     override fun onBindViewHolder(holder: CalendarAdapter.ViewHolder, position: Int) {
         val current = files?.get(position)
-        holder.curr_date = items[1].count
+        if(items.size>1) {
+            holder.curr_date = items[1].count
+        }
         if (validationCheck(current)) {
             holder.calendar_routine_name.text = current?.name
             holder.calendar_routine_count.text = current?.count
@@ -55,10 +57,11 @@ class CalendarAdapter(val items: ArrayList<Myroutines>) :
         var calendar_routine_name: TextView = itemView.findViewById(R.id.calendar_routine_name)
         var calendar_routine_count: TextView = itemView.findViewById(R.id.calendar_routine_count)
         var calendar_close_button: ImageButton = itemView.findViewById(R.id.calendar_close_button)
-        var curr_id: String = items[0].count
-        var curr_date: String = items[1].count
+        var curr_id: String=""
+        var curr_date: String = ""
 
         init {
+            curr_id = items[0].count
         }
     }
 
