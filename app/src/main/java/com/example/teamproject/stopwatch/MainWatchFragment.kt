@@ -48,6 +48,8 @@ class MainWatchFragment : Fragment() {
     }
 
 
+
+
     private fun initViewPager() {
         Log.d("viewmodel","저장된.selectedViewPagerPosition : ${stopWatchViewModel.selectedViewPagerPosition.value}")
         watchViewPagerAdapter = WatchViewPagerAdapter(childFragmentManager,lifecycle)

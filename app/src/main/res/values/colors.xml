@@ -14,5 +14,6 @@
     <color name="play">#A4FBA8</color>
     <color name="cancel">#C8C8C8</color>
     <color name="stop">#FF9090</color>
+    <color name="default_hint">#808080</color>
 
 </resources>

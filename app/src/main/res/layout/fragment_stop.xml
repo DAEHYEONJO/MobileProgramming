@@ -7,26 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".stopwatch.StopWatchFragment">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:background="@drawable/watch_input_exe_line"
-        android:layout_height="wrap_content">
 
         <AutoCompleteTextView
             android:id="@+id/input_exe_name"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:textColor="@color/black"
             android:hint="기록 측정할 운동을 입력하세요"
-            android:padding="10dp"
+            android:padding="15dp"
             android:gravity="center"
-            android:background="@drawable/watch_input_no_background"
-            android:layout_marginRight="10dp"
+            android:completionThreshold="1"
+            android:maxLines="1"
+            android:background="@drawable/watch_input_exe_line"
+            android:layout_margin="10dp"
             android:layout_height="wrap_content"/>
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

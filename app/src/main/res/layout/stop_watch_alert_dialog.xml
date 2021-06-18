@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="10dp"
+    android:background="@drawable/shadow"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:text="기록확인"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/input_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="운동 이름을 입력하지 않았습니다"
+        android:padding="15dp"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/watch_input_exe_line"/>
+    <TextView
+        android:id="@+id/record_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="기록 : "
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textSize="25dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:id="@+id/not_record"
+            android:layout_width="50dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="50dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top|center"
+                android:src="@drawable/ic_baseline_clear_24"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:text="취소"
+                android:textColor="@color/black"
+                android:textSize="15dp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/add_record"
+            android:layout_width="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top|center"
+                android:src="@drawable/ic_baseline_add_24" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:text="추가"/>
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>
