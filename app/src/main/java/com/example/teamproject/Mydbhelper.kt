@@ -96,7 +96,7 @@ class Mydbhelper{
     }
 
 
-    fun existRoutine(id: String, date: String, myCallbackExist: MyCallBackExist) {
+    fun existRoutineList(id: String, date: String, myCallbackExist: MyCallBackExist) {
         db.collection("Profile").document(id)
             .collection("history").whereEqualTo("date", date)
             .get()
@@ -105,6 +105,20 @@ class Mydbhelper{
                     myCallbackExist.onCallBackExist(false)
                 }else{
                     myCallbackExist.onCallBackExist(true)
+                }
+            }
+    }
+
+    fun existRoutine(id: String, date: String, routine: String, myCallbackExist: MyCallBackExist){
+        // existRoutineList 후 해당 date에 대한 document가 있을 때만 이 함수를 호출함.
+        db.collection("Profile").document(id)
+            .collection("history").document(date)
+            .get()
+            .addOnSuccessListener {
+                if(it[routine]!=null){
+                    myCallbackExist.onCallBackExist(true)
+                }else{
+                    myCallbackExist.onCallBackExist(false)
                 }
             }
     }

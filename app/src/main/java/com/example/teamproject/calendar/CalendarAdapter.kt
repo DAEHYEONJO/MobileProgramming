@@ -1,6 +1,5 @@
 package com.example.teamproject.calendar
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,9 +58,6 @@ class CalendarAdapter(val items: ArrayList<Myroutines>) :
         var curr_date: String = items[1].count
 
         init {
-            Log.d("testtest", "curr_date: $curr_id")
-            Log.d("testtest", "curr_date: $curr_date")
-
         }
     }
 

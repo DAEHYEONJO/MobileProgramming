@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.teamproject.MainActivity
 import com.example.teamproject.Mydbhelper
@@ -21,11 +22,6 @@ class AddRoutineActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_routine)
 
         init()
-    }
-
-    private fun max(a: Int, b: Int): Int {
-        return if (a > b) a
-        else b
     }
 
     private fun init() {
@@ -55,25 +51,54 @@ class AddRoutineActivity : AppCompatActivity() {
             var user_id = FirebaseAuth.getInstance().currentUser!!.uid
             val routine_name = findViewById<TextInputEditText>(R.id.routine_name).text.toString()
             val routine_count = routine_count.text.toString().toInt()
-            mydbhelper.existRoutine(user_id, selected_date, object : Mydbhelper.MyCallBackExist {
-                override fun onCallBackExist(value: Boolean) {
-                    super.onCallBackExist(value)
-                    val data = hashMapOf(
-                        routine_name to routine_count,
-                        "date" to selected_date
-                    )
-                    if (value) {
-                        mydbhelper.updateroutine(user_id, data)
-                    } else {
-                        mydbhelper.addroutine(user_id, data)
+            mydbhelper.existRoutineList(
+                user_id,
+                selected_date,
+                object : Mydbhelper.MyCallBackExist {
+                    override fun onCallBackExist(value: Boolean) {
+                        super.onCallBackExist(value)
+                        val data = hashMapOf(
+                            routine_name to routine_count,
+                            "date" to selected_date
+                        )
+                        if (value) {
+                            mydbhelper.existRoutine(user_id,
+                                selected_date, routine_name,
+                                object : Mydbhelper.MyCallBackExist {
+                                    override fun onCallBackExist(value: Boolean) {
+                                        super.onCallBackExist(value)
+                                        if (value) {
+                                            makeToast("이미 해당 루틴이 등록되어 있습니다.")
+                                        } else {
+                                            mydbhelper.updateroutine(user_id, data)
+                                            makeToast("루틴이 등록되었습니다.")
+                                            startActivity(intent)
+                                        }
+                                    }
+                                })
+                        } else {
+                            mydbhelper.addroutine(user_id, data)
+                            makeToast("루틴이 등록되었습니다.")
+                            startActivity(intent)
+                        }
                     }
-                }
-            })
-
-            startActivity(intent)
+                })
         }
         cancelBtn.setOnClickListener {
             startActivity(intent)
         }
+    }
+
+    private fun max(a: Int, b: Int): Int {
+        return if (a > b) a
+        else b
+    }
+
+    private fun makeToast(message:String){
+        Toast.makeText(
+            this@AddRoutineActivity,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
