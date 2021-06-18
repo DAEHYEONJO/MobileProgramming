@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,7 @@ class CalendarFragment : Fragment() {
     private lateinit var curr_date: String
     private lateinit var calendarAdapter: CalendarAdapter
     private lateinit var mydbhelper: Mydbhelper
+    lateinit var user_id: String
     lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -30,7 +32,17 @@ class CalendarFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_calendar, container, false)
         init(rootView)
         fabInit(rootView)
+        resetButtonInit(rootView)
         return rootView
+    }
+
+    private fun resetButtonInit(rootView: View) {
+        val reset_button = rootView.findViewById<Button>(R.id.calendar_routine_reset_button)
+        reset_button.setOnClickListener {
+            mydbhelper.deleteallroutine(user_id, curr_date)
+            data.clear()
+            recyclerView.adapter?.notifyDataSetChanged()
+        }
     }
 
     private fun fabInit(rootView: View) {
@@ -45,8 +57,8 @@ class CalendarFragment : Fragment() {
     private fun init(rootView: View) {
         mydbhelper = Mydbhelper()
         curr_date = LocalDate.now().toString()
+        user_id = FirebaseAuth.getInstance().currentUser!!.uid
 
-        val user_id = FirebaseAuth.getInstance().currentUser!!.uid
         val calendarView = rootView.findViewById<CalendarView>(R.id.calendarView)
 
         initRecyclerView(rootView)
@@ -68,7 +80,7 @@ class CalendarFragment : Fragment() {
         recyclerView.adapter = calendarAdapter
     }
 
-    private fun updateRecyclerView(user_id:String){
+    private fun updateRecyclerView(user_id: String) {
         mydbhelper.getRoutineList(user_id, curr_date, object : Mydbhelper.MyCallbakclist {
             override fun onCallbacklist(value: ArrayList<Myroutines>) {
                 super.onCallbacklist(value)
