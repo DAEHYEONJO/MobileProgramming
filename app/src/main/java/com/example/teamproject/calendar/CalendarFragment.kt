@@ -50,24 +50,11 @@ class CalendarFragment : Fragment() {
         val calendarView = rootView.findViewById<CalendarView>(R.id.calendarView)
 
         initRecyclerView(rootView)
+        updateRecyclerView(user_id)
 
         calendarView.setOnDateChangeListener { _, year, month, day ->
             curr_date = LocalDate.of(year, month + 1, day).toString()
-            mydbhelper.getRoutineList(user_id, curr_date, object : Mydbhelper.MyCallbakclist {
-                override fun onCallbacklist(value: ArrayList<Myroutines>) {
-                    super.onCallbacklist(value)
-                    data.clear()
-
-                    data.add(Myroutines("user_id", user_id)) // remove할 때 아이디 정보가 필요함.
-
-                    for (v in value) {
-                        data.add(Myroutines(v.name, v.count))
-                    }
-
-                    recyclerView.adapter?.notifyDataSetChanged()
-                }
-            })
-
+            updateRecyclerView(user_id)
         }
     }
 
@@ -79,5 +66,22 @@ class CalendarFragment : Fragment() {
         )
         calendarAdapter = CalendarAdapter(data)
         recyclerView.adapter = calendarAdapter
+    }
+
+    private fun updateRecyclerView(user_id:String){
+        mydbhelper.getRoutineList(user_id, curr_date, object : Mydbhelper.MyCallbakclist {
+            override fun onCallbacklist(value: ArrayList<Myroutines>) {
+                super.onCallbacklist(value)
+                data.clear()
+
+                data.add(Myroutines("user_id", user_id)) // remove할 때 아이디 정보가 필요함.
+
+                for (v in value) {
+                    data.add(Myroutines(v.name, v.count))
+                }
+
+                recyclerView.adapter?.notifyDataSetChanged()
+            }
+        })
     }
 }
