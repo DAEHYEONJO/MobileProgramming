@@ -19,6 +19,8 @@ class StopWatchViewModel:ViewModel() {
 
     var selectedViewPagerPosition = MutableLiveData<Int>()
 
+    var exeNameList = MutableLiveData<ArrayList<ExeName>>()
+
 
     init {
         hour.value = "00"
