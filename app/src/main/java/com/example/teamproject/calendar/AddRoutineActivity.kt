@@ -5,33 +5,26 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.teamproject.MainActivity
 import com.example.teamproject.Mydbhelper
 import com.example.teamproject.R
 import com.google.android.material.textfield.TextInputEditText
-
-
+import com.google.firebase.auth.FirebaseAuth
 
 
 class AddRoutineActivity : AppCompatActivity() {
     lateinit var mydbhelper: Mydbhelper
-    lateinit var selected_date:String
+    lateinit var selected_date: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_routine)
 
         init()
     }
-    fun max(a:Int, b:Int):Int {
-        var ret = if(a>b) {
-            a
-        }else{
-            b
-        }
-        return ret
-    }
-    private fun init(){
+
+    private fun init() {
         selected_date = intent.getStringExtra("date").toString()
 
         mydbhelper = Mydbhelper()
@@ -45,27 +38,67 @@ class AddRoutineActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
 
         routine_count.setText("10")
+
         plus_btn.setOnClickListener {
-            val new_repeat = routine_count.text.toString().toInt()+1
+            val new_repeat = routine_count.text.toString().toInt() + 1
             routine_count.setText(new_repeat.toString())
         }
         minus_btn.setOnClickListener {
-            val new_repeat = max(routine_count.text.toString().toInt()-1, 0)
+            val new_repeat = max(routine_count.text.toString().toInt() - 1, 0)
             routine_count.setText(new_repeat.toString())
         }
         applyBtn.setOnClickListener {
-            val routine_name = findViewById<TextInputEditText>(R.id.routine_name)
-
-            val data = hashMapOf(
-                routine_name.text.toString() to routine_count.text.toString().toInt(),
-                "date" to selected_date
-            )
-            mydbhelper.addroutine("temp", data)
-
-            startActivity(intent)
+            var user_id = FirebaseAuth.getInstance().currentUser!!.uid
+            val routine_name = findViewById<TextInputEditText>(R.id.routine_name).text.toString()
+            val routine_count = routine_count.text.toString().toInt()
+            mydbhelper.existRoutineList(
+                user_id,
+                selected_date,
+                object : Mydbhelper.MyCallBackExist {
+                    override fun onCallBackExist(value: Boolean) {
+                        super.onCallBackExist(value)
+                        val data = hashMapOf(
+                            routine_name to routine_count,
+                            "date" to selected_date
+                        )
+                        if (value) {
+                            mydbhelper.existRoutine(user_id,
+                                selected_date, routine_name,
+                                object : Mydbhelper.MyCallBackExist {
+                                    override fun onCallBackExist(value: Boolean) {
+                                        super.onCallBackExist(value)
+                                        if (value) {
+                                            makeToast("이미 해당 루틴이 등록되어 있습니다.")
+                                        } else {
+                                            mydbhelper.updateroutine(user_id, data)
+                                            makeToast("루틴이 등록되었습니다.")
+                                            startActivity(intent)
+                                        }
+                                    }
+                                })
+                        } else {
+                            mydbhelper.addroutine(user_id, data)
+                            makeToast("루틴이 등록되었습니다.")
+                            startActivity(intent)
+                        }
+                    }
+                })
         }
         cancelBtn.setOnClickListener {
             startActivity(intent)
         }
+    }
+
+    private fun max(a: Int, b: Int): Int {
+        return if (a > b) a
+        else b
+    }
+
+    private fun makeToast(message:String){
+        Toast.makeText(
+            this@AddRoutineActivity,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

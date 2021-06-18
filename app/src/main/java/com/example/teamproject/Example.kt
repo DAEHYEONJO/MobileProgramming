@@ -2,12 +2,8 @@ package com.example.teamproject
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Adapter
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-
-import com.example.teamproject.databinding.ActivityMainBinding
 import com.example.teamproject.databinding.DbexampleBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -89,7 +85,7 @@ class Example :AppCompatActivity() {
 
         mydbhelper.addroutine("1234", routine2) // 새로운 날짜에 루틴을 추가해줍니다.
 
-        mydbhelper.deletroutine("1234", "2021-05-29", "풀업") // 해당날짜의 루틴 하나만 삭제합니다.
+        mydbhelper.deleteroutine("1234", "2021-05-29", "풀업") // 해당날짜의 루틴 하나만 삭제합니다.
 
         //mydbhelper.deleteallroutine("1234","2021-05-30") // 해당 날짜의 루틴 전부 삭제합니다.
 

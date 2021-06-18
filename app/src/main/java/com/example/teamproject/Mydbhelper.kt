@@ -31,7 +31,7 @@ class Mydbhelper{
                 .collection("history").document(date).delete()
     }
 
-    fun deletroutine(id:String, date:String, routine:String){ // 루틴 하나만 삭제
+    fun deleteroutine(id:String, date:String, routine:String){ // 루틴 하나만 삭제
         val docref=db.collection("Profile").document(id)
                 .collection("history").document(date)
         val updates= hashMapOf<String,Any>(routine to FieldValue.delete())
@@ -49,6 +49,11 @@ class Mydbhelper{
         }
     }
 
+    interface MyCallBackExist{
+        fun onCallBackExist(value:Boolean){
+
+        }
+    }
 
     fun read(id: String, myCallback: MyCallback) { // 단순하게 하나의 요소만 읽을 경우 입니다.
         db.collection("Profile").document(id) /// document 아이디는 회원가입에서 생성된 아이디가 될것입니다.
@@ -91,7 +96,32 @@ class Mydbhelper{
     }
 
 
+    fun existRoutineList(id: String, date: String, myCallbackExist: MyCallBackExist) {
+        db.collection("Profile").document(id)
+            .collection("history").whereEqualTo("date", date)
+            .get()
+            .addOnSuccessListener {
+                if (it.isEmpty) {
+                    myCallbackExist.onCallBackExist(false)
+                }else{
+                    myCallbackExist.onCallBackExist(true)
+                }
+            }
+    }
 
+    fun existRoutine(id: String, date: String, routine: String, myCallbackExist: MyCallBackExist){
+        // existRoutineList 후 해당 date에 대한 document가 있을 때만 이 함수를 호출함.
+        db.collection("Profile").document(id)
+            .collection("history").document(date)
+            .get()
+            .addOnSuccessListener {
+                if(it[routine]!=null){
+                    myCallbackExist.onCallBackExist(true)
+                }else{
+                    myCallbackExist.onCallBackExist(false)
+                }
+            }
+    }
 
     fun getRoutineList(id:String, date :String, myCallbakclist: MyCallbakclist) { // 리싸이클러뷰와 연동할 경우 입니다. 해당 날짜에 대한 루틴정보를 읽어옵니다.
         val docref = db.collection("Profile").document(id)
