@@ -18,10 +18,10 @@ import java.time.LocalDate
 
 class CalendarFragment : Fragment() {
     var data: ArrayList<Myroutines> = ArrayList()
-    lateinit var curr_date: String
+    private lateinit var curr_date: String
+    private lateinit var calendarAdapter: CalendarAdapter
+    private lateinit var mydbhelper: Mydbhelper
     lateinit var recyclerView: RecyclerView
-    lateinit var calendarAdapter: CalendarAdapter
-    lateinit var mydbhelper: Mydbhelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,20 +34,23 @@ class CalendarFragment : Fragment() {
     }
 
     private fun fabInit(rootView: View) {
-        var fab = rootView.findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        val fab = rootView.findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fab.setOnClickListener {
-            var intent = Intent(activity, AddRoutineActivity::class.java)
+            val intent = Intent(activity, AddRoutineActivity::class.java)
             intent.putExtra("date", curr_date)
             startActivity(intent)
         }
     }
 
     private fun init(rootView: View) {
-        var user_id = FirebaseAuth.getInstance().currentUser!!.uid
         mydbhelper = Mydbhelper()
-        var calendarView = rootView.findViewById<CalendarView>(R.id.calendarView)
         curr_date = LocalDate.now().toString()
+
+        val user_id = FirebaseAuth.getInstance().currentUser!!.uid
+        val calendarView = rootView.findViewById<CalendarView>(R.id.calendarView)
+
         initRecyclerView(rootView)
+
         calendarView.setOnDateChangeListener { _, year, month, day ->
             curr_date = LocalDate.of(year, month + 1, day).toString()
             mydbhelper.getRoutineList(user_id, curr_date, object : Mydbhelper.MyCallbakclist {
@@ -55,9 +58,10 @@ class CalendarFragment : Fragment() {
                     super.onCallbacklist(value)
                     data.clear()
 
+                    data.add(Myroutines("user_id", user_id)) // remove할 때 아이디 정보가 필요함.
+
                     for (v in value) {
-                        if (v.name != "date")
-                            data.add(Myroutines(v.name, v.count))
+                        data.add(Myroutines(v.name, v.count))
                     }
 
                     recyclerView.adapter?.notifyDataSetChanged()

@@ -13,9 +13,11 @@
             android:id="@+id/calendar_routine_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:gravity="end"
             android:paddingRight="10dp"
-            android:text="@string/routine_name" />
+            android:text="@string/routine_name"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -27,7 +29,21 @@
             android:id="@+id/calendar_routine_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="@string/routine_repeat" />
+            android:text="@string/routine_repeat"
+            android:textSize="20dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end">
+
+        <ImageButton
+            android:id="@+id/calendar_close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_close_24"
+            android:backgroundTint="@color/white"/>
     </LinearLayout>
 </LinearLayout>

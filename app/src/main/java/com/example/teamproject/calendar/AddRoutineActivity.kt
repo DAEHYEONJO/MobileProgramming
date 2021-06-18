@@ -2,7 +2,6 @@ package com.example.teamproject.calendar
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -43,6 +42,7 @@ class AddRoutineActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
 
         routine_count.setText("10")
+
         plus_btn.setOnClickListener {
             val new_repeat = routine_count.text.toString().toInt() + 1
             routine_count.setText(new_repeat.toString())
@@ -62,7 +62,6 @@ class AddRoutineActivity : AppCompatActivity() {
                         routine_name to routine_count,
                         "date" to selected_date
                     )
-                    Log.d("testtest", value.toString())
                     if (value) {
                         mydbhelper.updateroutine(user_id, data)
                     } else {
