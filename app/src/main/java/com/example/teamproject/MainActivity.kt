@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
+        fetchExeList()
         requestPermission()//stt 기능을 위해 RECORD_AUDIO 권한 요청
         initService()
         bottomNaviInit()
@@ -75,6 +75,16 @@ class MainActivity : AppCompatActivity() {
         //    val intent = Intent(this, Example::class.java)
         //    startActivity(intent) /// db 예시 화면으로 갑니다.
         //}
+    }
+
+    private fun fetchExeList() {
+        val db = FirebaseFirestore.getInstance().collection("ExeList")
+        val exeNameDbHelper = ExeNameDbHelper(this)
+        db.get().addOnSuccessListener {
+            for (doc in it){
+                exeNameDbHelper.insertName(doc.id)
+            }
+        }
     }
 
     private fun initService(){
