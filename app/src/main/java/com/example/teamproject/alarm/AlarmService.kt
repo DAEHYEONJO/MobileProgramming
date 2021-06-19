@@ -10,17 +10,27 @@ import java.util.*
 class AlarmService (private val context: Context){
 
      fun everydayAlarm(){
-        val calendar= Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY,9)
-        calendar.set(Calendar.MINUTE,0)
-        calendar.set(Calendar.SECOND,0)
-        calendar.set(Calendar.MILLISECOND,0)
+        val calNow = Calendar.getInstance()
+        val calSet = calNow.clone() as Calendar
+        if (calSet.compareTo(calNow) <= 0) {
+           calSet.add(Calendar.DATE, 1)
+        }
+        calSet.set(Calendar.HOUR_OF_DAY, 9)
+        calSet.set(Calendar.MINUTE, 0)
+        calSet.set(Calendar.SECOND, 0)
+        calSet.set(Calendar.MILLISECOND, 0)
+//
+//        val calendar= Calendar.getInstance()
+//        calendar.set(Calendar.HOUR_OF_DAY,15)
+//        calendar.set(Calendar.MINUTE,0)
+//        calendar.set(Calendar.SECOND,0)
+//        calendar.set(Calendar.MILLISECOND,0)
         val intent= Intent(context.applicationContext,AlarmReceiver::class.java)
         intent.putExtra("type",1)
         intent.putExtra("content","content") // 매일 보내질 알람의 내용 설정!
         val pendingIntent= PendingIntent.getBroadcast(context.applicationContext,100,intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager=context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.timeInMillis, AlarmManager.INTERVAL_DAY,pendingIntent)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calSet.timeInMillis, AlarmManager.INTERVAL_DAY,pendingIntent)
     }
 
      fun setAlarm(year:Int,month:Int,day:Int){

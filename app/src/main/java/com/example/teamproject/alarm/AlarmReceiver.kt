@@ -20,7 +20,8 @@ class AlarmReceiver:BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val scan = Scanner(context?.resources?.openRawResource(R.raw.sayings)) // saylist 내부의 파일에서 텍스트를 읽어옵니다.
         readFileScan(scan) // 해당 함수에서는 읽어온 명언을 저장합니다.
-
+        val alarm=AlarmService(context!!)
+        alarm.everydayAlarm()
         var channelID =""
         var code= 0
         var name=""

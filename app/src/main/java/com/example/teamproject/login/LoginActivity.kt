@@ -1,8 +1,10 @@
 package com.example.teamproject.login
 
 import android.app.AlertDialog
+import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -13,10 +15,12 @@ import androidx.core.widget.addTextChangedListener
 import com.example.teamproject.MainActivity
 import com.example.teamproject.Mydbhelper
 import com.example.teamproject.alarm.AlarmService
+import com.example.teamproject.alarm.rebootReceiver
 import com.example.teamproject.databinding.ActivityLoginBinding
 import com.google.common.base.Strings.isNullOrEmpty
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+
 
 class LoginActivity : AppCompatActivity() {
     lateinit var mydbhelper: Mydbhelper // db에도 정보를 넣기 위해서 선언해주었습니다.
@@ -35,6 +39,18 @@ class LoginActivity : AppCompatActivity() {
         initEditText()
         initRegister()
         initFindPW()
+        initAlarm()
+    }
+
+    private fun initAlarm(){
+        val receiver = ComponentName(this@LoginActivity, rebootReceiver::class.java)
+
+        this@LoginActivity.packageManager.setComponentEnabledSetting(
+                receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP
+        )
+
     }
 
     private fun initFindPW(){ // 비밀번호 찾기
@@ -72,6 +88,7 @@ class LoginActivity : AppCompatActivity() {
         binding.apply {
             val alarm=AlarmService(this@LoginActivity)
             alarm.everydayAlarm()
+
             if(auth.currentUser!=null){ //로그인 된 상태면 바로 메인으로 이동
                 val intent=Intent(this@LoginActivity,MainActivity::class.java)
                 startActivity(intent)
@@ -117,6 +134,7 @@ class LoginActivity : AppCompatActivity() {
             progressBar.visibility=View.VISIBLE
             auth.signInWithEmailAndPassword(email,pw).addOnCompleteListener {
                 if(it.isSuccessful){
+
                     val intent= Intent(this@LoginActivity,
                             MainActivity::class.java)
                     startActivity(intent)
@@ -185,11 +203,11 @@ class LoginActivity : AppCompatActivity() {
             if(checkEmail==0){
                 return
             }
-//            if(email.isEmpty()){
-//                signupInputLayout.setError("이메일이 필요합니다.")
-//                signupInputLayout.requestFocus()
-//                return
-//            }
+            if(email.isEmpty()){
+                signupInputLayout.setError("이메일이 필요합니다.")
+                signupInputLayout.requestFocus()
+                return
+            }
             if(pw.isEmpty()){
                 signupInputLayout2.setError("비밀번호가 필요합니다.")
                 signupInputLayout2.requestFocus()

@@ -18,15 +18,17 @@ class MyVideoItemRecyclerViewAdapter(
              val size=values.size
              //Log.i("check",size.toString())
              values.clear()
-             for(i in 0 until size){
-                 notifyItemRemoved(i)
-             }
+            // for(i in 0 until size){
+                 //notifyItemRemoved(i)
+             //}
+             notifyDataSetChanged()
          }
     }
 
     fun insertData(data: VideoData){
         values.add(data)
-        notifyItemInserted(values.lastIndex)
+        notifyDataSetChanged()
+        //notifyItemInserted(values.lastIndex)
     }
 
     interface OnItemClickListener{
