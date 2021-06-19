@@ -76,9 +76,9 @@ class AddRoutineActivity : AppCompatActivity() {
                                             mydbhelper.updateroutine(user_id, data)
                                             makeToast("루틴이 등록되었습니다.")
                                             alarm.setAlarm(
-                                                selected_date.substring(0, 4).toInt(),//2021
-                                                selected_date.substring(5, 7).toInt(),//6
-                                                selected_date.substring(8, 10).toInt()//18
+                                                selected_date.substring(0, 4).toInt(),
+                                                selected_date.substring(5, 7).toInt(),
+                                                selected_date.substring(8, 10).toInt()
                                             )
                                             startActivity(intent)
                                         }
@@ -87,9 +87,9 @@ class AddRoutineActivity : AppCompatActivity() {
                         } else {
                             mydbhelper.addroutine(user_id, data)
                             alarm.setAlarm(
-                                selected_date.substring(0, 4).toInt(),//2021
-                                selected_date.substring(5, 7).toInt(),//6
-                                selected_date.substring(8, 10).toInt()//18
+                                selected_date.substring(0, 4).toInt(),
+                                selected_date.substring(5, 7).toInt(),
+                                selected_date.substring(8, 10).toInt()
                             )
                             makeToast("루틴이 등록되었습니다.")
                             startActivity(intent)

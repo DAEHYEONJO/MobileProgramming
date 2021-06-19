@@ -43,9 +43,9 @@ class CalendarFragment : Fragment() {
         val alarm= AlarmService(this.requireContext())
         reset_button.setOnClickListener {
             alarm.cancelAlarm(
-                curr_date.substring(0, 4).toInt(),//2021
-                curr_date.substring(5, 7).toInt(),//6
-                curr_date.substring(8, 10).toInt()//18
+                curr_date.substring(0, 4).toInt(),
+                curr_date.substring(5, 7).toInt(),
+                curr_date.substring(8, 10).toInt()
             )
             mydbhelper.deleteallroutine(user_id, curr_date)
             data.clear()

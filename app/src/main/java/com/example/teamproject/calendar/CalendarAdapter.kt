@@ -53,7 +53,6 @@ class CalendarAdapter(val items: ArrayList<Myroutines>) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // row가 들어옴
         var calendar_routine_name: TextView = itemView.findViewById(R.id.calendar_routine_name)
         var calendar_routine_count: TextView = itemView.findViewById(R.id.calendar_routine_count)
         var calendar_close_button: ImageButton = itemView.findViewById(R.id.calendar_close_button)
