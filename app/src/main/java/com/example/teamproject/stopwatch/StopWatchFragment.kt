@@ -156,7 +156,6 @@ class StopWatchFragment : Fragment() {
     private fun recognitionListener() = object : RecognitionListener {
         override fun onReadyForSpeech(params: Bundle?) {
             isListening = true
-            Log.d("stopwatch","음성인식 시작 !!!!!!!!음성인식 시작 !!!!!!!!음성인식 시작 !!!!!!!!음성인식 시작 !!!!!!!!")
         }
 
         override fun onRmsChanged(rmsdB: Float) {
@@ -204,9 +203,9 @@ class StopWatchFragment : Fragment() {
                         stopWatchService.startStopWatch()
                         stopWatchViewModel.isRunning.value = stopWatchService.isRunning
                         stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
-                        //stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
-                        //StopWatchFragment().binding?.micText?.text = getString(R.string.stop)
-                        //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.stop)
+                        binding?.pauseBtn?.isEnabled = false
+                        binding?.startBtn?.isEnabled = true
+                        binding?.resetBtn?.isEnabled = false
                     }
 
                 }
@@ -215,8 +214,9 @@ class StopWatchFragment : Fragment() {
                         stopWatchService.stopStopWatch()
                         stopWatchViewModel.isRunning.value = stopWatchService.isRunning
                         stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
-                        //StopWatchFragment().binding?.micText?.text = getString(R.string.start)
-                        //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.start)만
+                        binding?.pauseBtn?.isEnabled = false
+                        binding?.startBtn?.isEnabled = true
+                        binding?.resetBtn?.isEnabled = true
                         binding?.apply {
                             if (inputExeName.text.isEmpty()){
                                 showWarningDiaglog(false)
@@ -450,8 +450,6 @@ class StopWatchFragment : Fragment() {
         stopWatchViewModel.msec.value = binding?.msec?.text.toString()
         stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
         stopWatchService.curExeName = binding?.inputExeName?.text.toString()
-        //
-        // Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
         if (speechRecognizer!=null && isListening){
             speechRecognizer!!.stopListening()
             speechRecognizer = null
