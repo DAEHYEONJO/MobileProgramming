@@ -9,6 +9,7 @@
     <string name="add_routine_success">루틴이 등록되었습니다.</string>
     <string name="add_routine_duplicate">이미 해당 루틴이 등록되어 있습니다.</string>
     <string name="add_routine_empty">공백은 입력할 수 없습니다.</string>
+    <string name="add_routine_count_zero">운동 횟수를 설정해주세요.</string>
     <string name="calendar_routine_reset">초기화하시겠습니까?</string>
     <string name="calendar_routine_remove">루틴을 삭제하시겠습니까?</string>
     <string name="alert_dialog_cancel">취소</string>
