@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -13,6 +14,7 @@ import com.example.teamproject.MainActivity
 import com.example.teamproject.Mydbhelper
 import com.example.teamproject.alarm.AlarmService
 import com.example.teamproject.databinding.ActivityLoginBinding
+import com.google.common.base.Strings.isNullOrEmpty
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -131,7 +133,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initEditText(){
         binding.apply {
             emailText.addTextChangedListener {
-                if(it.toString().contains('@')&&it.toString().contains('.')){
+                if(!isNullOrEmpty(it.toString()) && Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()){
                     loginEmailInputLayout.error=null
                     checkEmailLogin=1
                 }else{
@@ -162,7 +164,7 @@ class LoginActivity : AppCompatActivity() {
                 checkMale.isChecked=false
             }
             emailSignupText.addTextChangedListener {
-                if(it.toString().contains('@')&&it.toString().contains('.')){
+                if(!isNullOrEmpty(it.toString()) && Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()){
                     signupInputLayout.error=null
                     checkEmail=1
                 }else{
@@ -183,11 +185,11 @@ class LoginActivity : AppCompatActivity() {
             if(checkEmail==0){
                 return
             }
-            if(email.isEmpty()){
-                signupInputLayout.setError("이메일이 필요합니다.")
-                signupInputLayout.requestFocus()
-                return
-            }
+//            if(email.isEmpty()){
+//                signupInputLayout.setError("이메일이 필요합니다.")
+//                signupInputLayout.requestFocus()
+//                return
+//            }
             if(pw.isEmpty()){
                 signupInputLayout2.setError("비밀번호가 필요합니다.")
                 signupInputLayout2.requestFocus()
