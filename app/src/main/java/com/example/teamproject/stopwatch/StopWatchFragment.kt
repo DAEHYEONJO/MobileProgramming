@@ -263,7 +263,7 @@ class StopWatchFragment : Fragment() {
                     stopWatchViewModel.isRunning.value = stopWatchService.isRunning
                     stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
                     stopWatchService.curExeName = binding?.inputExeName?.text.toString()
-                    Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
             pauseBtn.setOnClickListener {
@@ -281,7 +281,7 @@ class StopWatchFragment : Fragment() {
                     }
                     stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
                     stopWatchService.curExeName = binding?.inputExeName?.text.toString()
-                    Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
             resetBtn.setOnClickListener {
@@ -450,7 +450,8 @@ class StopWatchFragment : Fragment() {
         stopWatchViewModel.msec.value = binding?.msec?.text.toString()
         stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
         stopWatchService.curExeName = binding?.inputExeName?.text.toString()
-        Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
+        //
+        // Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
         if (speechRecognizer!=null && isListening){
             speechRecognizer!!.stopListening()
             speechRecognizer = null
