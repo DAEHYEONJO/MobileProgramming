@@ -1,6 +1,7 @@
 package com.example.teamproject.calendar
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -43,16 +44,26 @@ class CalendarFragment : Fragment() {
         val reset_button = rootView.findViewById<Button>(R.id.calendar_routine_reset_button)
         val alarm= AlarmService(this.requireContext())
         reset_button.setOnClickListener {
-            var builder = AlertDialog.Builder(this.activity)
-            builder.setMessage("")
-            alarm.cancelAlarm(
-                curr_date.substring(0, 4).toInt(),
-                curr_date.substring(5, 7).toInt(),
-                curr_date.substring(8, 10).toInt()
-            )
-            mydbhelper.deleteallroutine(user_id, curr_date)
-            data.clear()
-            recyclerView.adapter?.notifyDataSetChanged()
+            var builder = AlertDialog.Builder(activity)
+            builder.setMessage(R.string.calendar_routine_reset)
+                .setPositiveButton(R.string.alert_dialog_confirm,
+                DialogInterface.OnClickListener{dialog, _->
+                    alarm.cancelAlarm(
+                        curr_date.substring(0, 4).toInt(),
+                        curr_date.substring(5, 7).toInt(),
+                        curr_date.substring(8, 10).toInt()
+                    )
+                    mydbhelper.deleteallroutine(user_id, curr_date)
+                    data.clear()
+                    recyclerView.adapter?.notifyDataSetChanged()
+                    dialog.dismiss()
+                })
+                .setNegativeButton(R.string.alert_dialog_cancel,
+                DialogInterface.OnClickListener { dialog, _ ->
+                    dialog.cancel()
+                })
+            builder.create().show()
+
         }
     }
 

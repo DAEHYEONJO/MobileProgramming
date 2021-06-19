@@ -54,6 +54,10 @@ class AddRoutineActivity : AppCompatActivity() {
             var user_id = FirebaseAuth.getInstance().currentUser!!.uid
             val routine_name = findViewById<TextInputEditText>(R.id.routine_name).text.toString()
             val routine_count = routine_count.text.toString().toInt()
+            if(routine_name.isEmpty()){
+                makeToast(R.string.add_routine_empty)
+                return@setOnClickListener
+            }
             mydbhelper.existRoutineList(
                 user_id,
                 selected_date,
@@ -71,10 +75,10 @@ class AddRoutineActivity : AppCompatActivity() {
                                     override fun onCallBackExist(value: Boolean) {
                                         super.onCallBackExist(value)
                                         if (value) {
-                                            makeToast(R.string.add_routine_duplicate.toString())
+                                            makeToast(R.string.add_routine_duplicate)
                                         } else {
                                             mydbhelper.updateroutine(user_id, data)
-                                            makeToast(R.string.add_routine_success.toString())
+                                            makeToast(R.string.add_routine_success)
                                             alarm.setAlarm(
                                                 selected_date.substring(0, 4).toInt(),
                                                 selected_date.substring(5, 7).toInt(),
@@ -91,7 +95,7 @@ class AddRoutineActivity : AppCompatActivity() {
                                 selected_date.substring(5, 7).toInt(),
                                 selected_date.substring(8, 10).toInt()
                             )
-                            makeToast(R.string.add_routine_success.toString())
+                            makeToast(R.string.add_routine_success)
                             startActivity(intent)
                         }
                     }
@@ -107,7 +111,7 @@ class AddRoutineActivity : AppCompatActivity() {
         else b
     }
 
-    private fun makeToast(message:String){
+    private fun makeToast(message:Int){
         Toast.makeText(
             this@AddRoutineActivity,
             message,
