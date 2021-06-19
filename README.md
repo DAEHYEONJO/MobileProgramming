@@ -2,9 +2,7 @@
 
 ```bash
 teamproject
-│  Example.kt
 │  MainActivity.kt
-│  Myadapter.kt
 │  Mydbhelper.kt
 │  Myroutines.kt
 │  output.txt
