@@ -45,8 +45,6 @@ class Profile : Fragment() {
         initData()
         init()
         countdate(count,start_date)
-        Log.d("asdf", count.toString())
-
 
     }
 

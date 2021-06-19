@@ -2,14 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/bottom_one"
         android:title="one"
-        android:icon="@drawable/ic_launcher_foreground"/>
+        android:icon="@drawable/ic_baseline_calendar_today_24"/>
     <item android:id="@+id/bottom_two"
         android:title="two"
-        android:icon="@drawable/ic_launcher_foreground"/>
+        android:icon="@drawable/ic_baseline_video_library_24"/>
     <item android:id="@+id/bottom_three"
-        android:title="three"
-        android:icon="@drawable/ic_launcher_foreground"/>
-    <item android:id="@+id/bottom_four"
         android:title="프로필"
         android:icon="@drawable/ic_baseline_person_pin_24"/>
     <item android:id="@+id/bottom_stop_watch"
