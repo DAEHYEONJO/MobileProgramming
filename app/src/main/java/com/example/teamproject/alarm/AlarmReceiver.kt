@@ -35,7 +35,7 @@ class AlarmReceiver:BroadcastReceiver() {
             val builder=NotificationCompat.Builder(context,"specificday")
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.ic_baseline_timer_24)
-                    .setContentTitle("title")
+                    .setContentTitle("오늘의 운동")
                     .setContentText("오늘 운동 일정이 있어요!")
                     .setAutoCancel(true)
             channelID ="specificday"
@@ -58,7 +58,7 @@ class AlarmReceiver:BroadcastReceiver() {
             val builder = NotificationCompat.Builder(context, "everyday")
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.ic_baseline_timer_24)
-                    .setContentTitle("title")
+                    .setContentTitle("운동을 합시다!")
                     .setContentText(text)
                     .setAutoCancel(true)
             builder.setChannelId("everyday")

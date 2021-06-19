@@ -28,8 +28,8 @@ class AlarmService (private val context: Context){
         calendar.set(Calendar.YEAR,year)
         calendar.set(Calendar.MONTH,month-1) //1월이 0임
         calendar.set(Calendar.DAY_OF_MONTH,day)
-        calendar.set(Calendar.HOUR_OF_DAY,20)
-        calendar.set(Calendar.MINUTE,30)
+        calendar.set(Calendar.HOUR_OF_DAY,9)
+        calendar.set(Calendar.MINUTE,0)
         calendar.set(Calendar.SECOND,0)
         calendar.set(Calendar.MILLISECOND,0)
         val intent= Intent(context.applicationContext,AlarmReceiver::class.java)
