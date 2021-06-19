@@ -99,7 +99,35 @@ class CalendarFragment : Fragment() {
             LinearLayoutManager.VERTICAL, false
         )
         calendarAdapter = CalendarAdapter(data)
+        calendarAdapter.itemClickListener = object: CalendarAdapter.OnItemClickListener{
+            override fun OnItemClick(
+                holder: CalendarAdapter.ViewHolder,
+                view: View,
+                position: Int
+            ) {
+                val alarm= AlarmService(this@CalendarFragment.requireContext())
+
+                mydbhelper.deleteroutine(
+                    holder.curr_id,
+                    holder.curr_date,
+                    holder.calendar_routine_name.text.toString()
+                )
+
+                data.removeAt(position)
+
+                if(data.size<=2){
+                    alarm.cancelAlarm(
+                        curr_date.substring(0, 4).toInt(),
+                        curr_date.substring(5, 7).toInt(),
+                        curr_date.substring(8, 10).toInt()
+                    )
+                }
+
+                calendarAdapter.notifyDataSetChanged()
+            }
+        }
         recyclerView.adapter = calendarAdapter
+
     }
 
     private fun updateRecyclerView(user_id: String) {
