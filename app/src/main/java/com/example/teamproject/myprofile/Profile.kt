@@ -1,6 +1,8 @@
 package com.example.teamproject.myprofile
 
 import android.accounts.Account
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.example.teamproject.Mydbhelper
 import com.example.teamproject.R
 import com.example.teamproject.databinding.FragmentProfileBinding
+import com.example.teamproject.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.okhttp.Dispatcher
@@ -45,6 +48,16 @@ class Profile : Fragment() {
         initData()
         init()
         countdate(count,start_date)
+
+        binding.logoutBtn.setOnClickListener {  //로그하웃 하기
+            FirebaseAuth.getInstance().signOut()
+            val i = Intent(activity as Activity, LoginActivity::class.java)
+            i.flags= Intent.FLAG_ACTIVITY_CLEAR_TASK
+            i.flags= Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(i)
+            activity?.finish()
+        }
+
 
     }
 

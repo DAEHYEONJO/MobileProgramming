@@ -12,6 +12,7 @@
         android:layout_gravity="top"
         android:layout_margin="10dp"
         android:layout_weight="0"
+        android:gravity="center"
         android:background="@drawable/layout_border"
         android:orientation="horizontal">
 
@@ -34,6 +35,19 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="TextView" />
+
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:fontFamily="@font/nanumbarungothicbold"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            android:text="logout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 
