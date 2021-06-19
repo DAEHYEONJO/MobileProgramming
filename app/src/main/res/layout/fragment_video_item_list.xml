@@ -10,10 +10,13 @@
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/layout_border"
         android:gravity="center"
+        android:padding="10dp"
         android:text="홈 트레이닝 추천 영상"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textColor="#33302F"
+        android:textSize="30sp" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -30,7 +33,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="465dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
