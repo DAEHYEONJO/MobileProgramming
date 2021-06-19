@@ -25,6 +25,7 @@ class StopWatchService : Service() {
     var sec = 0
     var msec = 0
     var time = 0
+    var curExeName = ""
     var isRunning : Boolean by Delegates.observable(false){ property, oldValue, newValue ->
         Log.d("stopwatchservice","chagne isRunning old : $oldValue -> new : $newValue")
     }

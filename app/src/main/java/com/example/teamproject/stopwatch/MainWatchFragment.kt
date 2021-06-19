@@ -67,7 +67,6 @@ class MainWatchFragment : Fragment() {
             tab.text = tabTextArr[position]
             tab.setIcon(tabImgArr[position])
         }.attach()
-        binding?.viewPager?.currentItem = stopWatchViewModel.selectedViewPagerPosition.value!!
     }
 
 

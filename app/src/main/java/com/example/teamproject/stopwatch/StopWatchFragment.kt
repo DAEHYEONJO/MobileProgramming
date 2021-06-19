@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.AudioManager
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -59,7 +60,11 @@ class StopWatchFragment : Fragment() {
 
     lateinit var exeNameAdapter : ArrayAdapter<String>
     lateinit var exeNameDbHelper : ExeNameDbHelper
+    lateinit var exeNameList : ArrayList<String>
 
+    val curUserId = FirebaseAuth.getInstance().currentUser!!.uid
+    val db = FirebaseFirestore.getInstance()
+    val exeRecordDb = db.collection("Profile").document(curUserId).collection("ExeRecord")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,14 +78,23 @@ class StopWatchFragment : Fragment() {
     }
 
     private fun initExeNameAdapter() {
+        exeRecordDb.get().addOnSuccessListener {
+            for (doc in it){
+                Log.d("stopwatch",doc.id)
+
+            }
+        }
         exeNameDbHelper = ExeNameDbHelper(requireContext())
-        val exeNameList = exeNameDbHelper.getAll()
+        exeNameList = exeNameDbHelper.getAll()
+        stopWatchViewModel.exeNameList.value = exeNameList
         exeNameAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,exeNameList)
         binding?.inputExeName?.setAdapter(exeNameAdapter)
         binding?.inputExeName?.isCursorVisible = false
         binding?.inputExeName?.setOnItemClickListener { parent, view, position, id ->
             val immHide = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             immHide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+            //Toast.makeText(requireContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show()
+            // stopWatchViewModel.curExeName.value = parent.getItemAtPosition(position).toString()
         }
     }
 
@@ -94,8 +108,19 @@ class StopWatchFragment : Fragment() {
         Log.d("stopwatch","onViewCreated")
         initExeNameAdapter()
 
+        if (stopWatchService.hour - 10 < 0) binding?.hour?.text = "0"+stopWatchService.hour.toString()
+        else binding?.hour?.text = stopWatchService.hour.toString()
+        if (stopWatchService.min - 10 < 0) binding?.min?.text = "0"+stopWatchService.min.toString()
+        else binding?.min?.text = stopWatchService.min.toString()
+        if (stopWatchService.sec - 10 < 0) binding?.sec?.text = "0"+stopWatchService.sec.toString()
+        else binding?.sec?.text = stopWatchService.sec.toString()
+        if (stopWatchService.msec - 10 < 0) binding?.msec?.text = "0"+stopWatchService.msec.toString()
+        else binding?.msec?.text = stopWatchService.msec.toString()
+
         stopWatchViewModel.isRunning.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it){
+                //Log.d("stopwatch","stopWatchViewModel.curExeName ${stopWatchViewModel.curExeName.value.toString()}")
+                //binding?.inputExeName?.setText(stopWatchViewModel.curExeName.value.toString())
                 Log.d("stopwatch","프래그먼트 뷰모델 isRunnig $it")
                 binding?.micText?.text = getString(R.string.stop)
                 timer = timer(period = 10) {
@@ -112,6 +137,7 @@ class StopWatchFragment : Fragment() {
                 binding?.min?.text = stopWatchViewModel.min.value
                 binding?.sec?.text = stopWatchViewModel.sec.value
                 binding?.msec?.text = stopWatchViewModel.msec.value
+                //binding?.inputExeName?.setText(stopWatchViewModel.curExeName.value.toString())
             }
         })
 
@@ -176,6 +202,9 @@ class StopWatchFragment : Fragment() {
                 "시작"->{
                     if(!stopWatchService.isRunning){
                         stopWatchService.startStopWatch()
+                        stopWatchViewModel.isRunning.value = stopWatchService.isRunning
+                        stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
+                        //stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
                         //StopWatchFragment().binding?.micText?.text = getString(R.string.stop)
                         //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.stop)
                     }
@@ -184,6 +213,8 @@ class StopWatchFragment : Fragment() {
                 "그만"->{
                     if(stopWatchService.isRunning){
                         stopWatchService.stopStopWatch()
+                        stopWatchViewModel.isRunning.value = stopWatchService.isRunning
+                        stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
                         //StopWatchFragment().binding?.micText?.text = getString(R.string.start)
                         //(childFragmentManager as StopWatchFragment).binding?.micText?.text = getString(R.string.start)만
                         binding?.apply {
@@ -230,6 +261,9 @@ class StopWatchFragment : Fragment() {
                     pauseBtn.isEnabled = true
                     resetBtn.isEnabled = false
                     stopWatchViewModel.isRunning.value = stopWatchService.isRunning
+                    stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
+                    stopWatchService.curExeName = binding?.inputExeName?.text.toString()
+                    Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
             pauseBtn.setOnClickListener {
@@ -245,6 +279,9 @@ class StopWatchFragment : Fragment() {
                     }else{
                         showWarningDiaglog(true)
                     }
+                    stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
+                    stopWatchService.curExeName = binding?.inputExeName?.text.toString()
+                    Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
             resetBtn.setOnClickListener {
@@ -329,13 +366,29 @@ class StopWatchFragment : Fragment() {
 
         Log.d("stopwatch","그만들어옴")
         val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")
+        val formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")
         val formatted = current.format(formatter)
 
-        val curUserId = FirebaseAuth.getInstance().currentUser!!.uid
-        val exeRecordDb = FirebaseFirestore.getInstance().collection("Profile").document(curUserId).collection("ExeRecord")
+
         val newData = hashMapOf(formatted to recordStr)
         exeRecordDb.document(name).set(newData, SetOptions.merge())
+                .addOnCompleteListener {
+                    exeRecordDb.get().addOnSuccessListener {
+                        for (doc in it){
+                            Log.d("stopwatch",doc.id)
+                        }
+                    }
+                }
+
+        val exeNameDb = db.collection("ExeList")
+        exeNameDb.document(name).set(ExeName(name))
+        exeNameDbHelper.insertName(name)
+        exeNameList = exeNameDbHelper.getAll()
+        stopWatchViewModel.exeNameList.value = exeNameList
+        exeNameAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,exeNameList)
+        binding?.inputExeName?.setAdapter(exeNameAdapter)
+
+
     }
 
     private fun settingTimes() {
@@ -377,16 +430,27 @@ class StopWatchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("stopwatch","onResume")
+        val audioManager = requireContext().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.setStreamMute(AudioManager.STREAM_MUSIC,true)
         startStt()
+        if (stopWatchViewModel.curExeName.value != "")
+            binding?.inputExeName?.setText(stopWatchViewModel.curExeName.value.toString())
+        if (stopWatchService.curExeName != "")
+            binding?.inputExeName?.setText(stopWatchService.curExeName)
     }
 
     override fun onPause() {
         super.onPause()
         Log.d("stopwatch","onPause")
+        val audioManager = requireContext().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.setStreamMute(AudioManager.STREAM_MUSIC,false)
         stopWatchViewModel.hour.value = binding?.hour?.text.toString()
         stopWatchViewModel.min.value = binding?.min?.text.toString()
         stopWatchViewModel.sec.value = binding?.sec?.text.toString()
         stopWatchViewModel.msec.value = binding?.msec?.text.toString()
+        stopWatchViewModel.curExeName.value = binding?.inputExeName?.text.toString()
+        stopWatchService.curExeName = binding?.inputExeName?.text.toString()
+        Toast.makeText(requireContext(), binding?.inputExeName?.text.toString(), Toast.LENGTH_SHORT).show()
         if (speechRecognizer!=null && isListening){
             speechRecognizer!!.stopListening()
             speechRecognizer = null
@@ -396,6 +460,8 @@ class StopWatchFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        val audioManager = requireContext().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.setStreamMute(AudioManager.STREAM_MUSIC,false)
         Log.d("stopwatch","onStop")
     }
 

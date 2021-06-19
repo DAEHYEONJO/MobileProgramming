@@ -19,8 +19,12 @@ class StopWatchViewModel:ViewModel() {
 
     var selectedViewPagerPosition = MutableLiveData<Int>()
 
-    var exeNameList = MutableLiveData<ArrayList<ExeName>>()
+    var exeNameList = MutableLiveData<ArrayList<String>>()
+    var curExeName = MutableLiveData<String>()
 
+    var existNameList = MutableLiveData<ArrayList<String>>()
+    var recordCurName = MutableLiveData<String>()
+    var recordNotifyText = MutableLiveData<String>()
 
     init {
         hour.value = "00"
@@ -33,5 +37,7 @@ class StopWatchViewModel:ViewModel() {
         timerSec.value = "00"
 
         selectedViewPagerPosition.value = 0
+        curExeName.value = ""
+        recordNotifyText.value = "운동 이름을 선택하세요 !"
     }
 }
