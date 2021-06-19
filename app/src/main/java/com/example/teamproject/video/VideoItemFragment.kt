@@ -47,14 +47,6 @@ class VideoItemFragment : Fragment() {
                 }
 
             }
-            logoutBtn.setOnClickListener {  //로그하웃 하기
-                FirebaseAuth.getInstance().signOut()
-                val i = Intent(activity as Activity, LoginActivity::class.java)
-                i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
-                i.flags=Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(i)
-                activity?.finish()
-            }
 
             recyclerView.adapter=VideoAdapter
         }
