@@ -94,23 +94,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun bottomNaviInit() {//각자 기능 프래그먼트 만들어서 리플레이스 프레그먼트 함수 호출해주세요
         //메뉴 이름이나 메뉴 아이디, 아이콘 같은건 bottom_navigation_menu.xml에서 바꿔주세요
+        binding.bottomNavi.setSelectedItemId(R.id.bottom_one);
+        replaceFragment(CalendarFragment)
         binding.bottomNavi.setOnNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.bottom_one->{ return@setOnNavigationItemSelectedListener true }
-                R.id.bottom_two->{
+                R.id.bottom_one->{
                     replaceFragment(CalendarFragment)
                     return@setOnNavigationItemSelectedListener true }
-                R.id.bottom_three->{
+                R.id.bottom_two->{
                     replaceFragment(videoItemFragment)
                     return@setOnNavigationItemSelectedListener true }
-                R.id.bottom_four->{
+                R.id.bottom_three->{
                     replaceFragment(ProfileFragment)
                     return@setOnNavigationItemSelectedListener true }
                 R.id.bottom_stop_watch->{
                     replaceFragment(mainWatchFragment)
                     return@setOnNavigationItemSelectedListener true
                 }
-                else -> {return@setOnNavigationItemSelectedListener true }
+                else ->
+                {return@setOnNavigationItemSelectedListener true }
             }
         }
     }
