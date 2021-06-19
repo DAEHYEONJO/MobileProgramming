@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:hint="운동 이름을 입력하지 않았습니다"
         android:padding="15dp"
+        android:completionThreshold="1"
         android:gravity="center"
         android:layout_margin="10dp"
         android:background="@drawable/watch_input_exe_line"/>
