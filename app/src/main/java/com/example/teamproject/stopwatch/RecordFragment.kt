@@ -137,7 +137,7 @@ class RecordFragment : Fragment() {
                 progressOff()
                 return@addOnCompleteListener
             }
-            recordList.sortBy {
+            recordList.sortByDescending {
                 it.time
                 //Log.d("record","sorting : ${it.date} ${it.time}")
             }
