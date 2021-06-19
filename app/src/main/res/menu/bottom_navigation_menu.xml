@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/bottom_one"
-        android:title="one"
+        android:title="일정등록"
         android:icon="@drawable/ic_baseline_calendar_today_24"/>
     <item android:id="@+id/bottom_two"
-        android:title="two"
+        android:title="추천영상"
         android:icon="@drawable/ic_baseline_video_library_24"/>
     <item android:id="@+id/bottom_three"
         android:title="프로필"

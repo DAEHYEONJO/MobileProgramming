@@ -47,7 +47,7 @@ class VideoItemFragment : Fragment() {
                 }
 
             }
-            logoutBtn.setOnClickListener {
+            logoutBtn.setOnClickListener {  //로그하웃 하기
                 FirebaseAuth.getInstance().signOut()
                 val i = Intent(activity as Activity, LoginActivity::class.java)
                 i.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -60,11 +60,13 @@ class VideoItemFragment : Fragment() {
         }
     }
     private fun initSpinner(){
-        val adapter= ArrayAdapter<String>(context!!, R.layout.simple_spinner_dropdown_item,
+        val adapter= ArrayAdapter<String>(requireContext(), R.layout.simple_spinner_dropdown_item,
             ArrayList<String>())
         adapter.add("팔굽혀펴기")
         adapter.add("철봉")
         adapter.add("코어")
+        adapter.add("하체")
+        adapter.add("버티기 운동")
         //adapter.add("")
         binding?.apply {
             spinner.adapter=adapter
@@ -81,6 +83,12 @@ class VideoItemFragment : Fragment() {
                         2->{//코어
                             initData(2)
                         }
+                        3->{//하체
+                            initData(3)
+                        }
+                        4->{//버티기
+                            initData(4)
+                        }
                     }
                 }
 
@@ -95,45 +103,13 @@ class VideoItemFragment : Fragment() {
         if(type==0){
             VideoAdapter.clearAdapter()
             VideoAdapter.insertData(VideoData(
-                "팔굽혀펴기 Step 1",
-                "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/SRl21nXi-Qc\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
+                "푸쉬업 0개 탈출",
+                "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/8oYB62z3sVs\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
             ))
             VideoAdapter.insertData(VideoData(
-                "팔굽혀펴기 Step 2",
-                "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/ecMvEalbis8\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
+                "푸쉬업 추천 루틴",
+                "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/c_5ENJWekbQ\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
             ))
-            VideoAdapter.insertData(VideoData(
-                "팔굽혀펴기 Step 3",
-                "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/1tIIHPXvz0I\" frameborder=\"0\" allowfullscreen></iframe>"
-            ))
-            VideoAdapter.insertData(VideoData(
-                "팔굽혀펴기 Step 4",
-                "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/g83sV5D2WJ4\" frameborder=\"0\" allowfullscreen></iframe>"
-            ))
-//            data.add(
-//                VideoData(
-//                    "팔굽혀펴기 Step 1",
-//                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/SRl21nXi-Qc\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
-//                )
-//            )
-//            data.add(
-//                VideoData(
-//                    "팔굽혀펴기 Step 2",
-//                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/ecMvEalbis8\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
-//                )
-//            )
-//            data.add(
-//                VideoData(
-//                    "팔굽혀펴기 Step 3",
-//                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/1tIIHPXvz0I\" frameborder=\"0\" allowfullscreen></iframe>"
-//                )
-//            )
-//            data.add(
-//                VideoData(
-//                    "팔굽혀펴기 Step 4",
-//                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/g83sV5D2WJ4\" frameborder=\"0\" allowfullscreen></iframe>"
-//                )
-//            )
         }
         else if(type==1) {
             VideoAdapter.clearAdapter()
@@ -153,57 +129,34 @@ class VideoItemFragment : Fragment() {
                 "왕초보 철봉 Step 4",
                 "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/g83sV5D2WJ4\" frameborder=\"0\" allowfullscreen></iframe>"
             ))
-//            data.add(
-//                VideoData(
-//                    "왕초보 철봉 Step 1",
-//                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/SRl21nXi-Qc\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
-//                )
-//            )
-//            data.add(
-//                VideoData(
-//                    "왕초보 철봉 Step 2",
-//                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/ecMvEalbis8\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
-//                )
-//            )
-//            data.add(
-//                VideoData(
-//                    "왕초보 철봉 Step 3",
-//                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/1tIIHPXvz0I\" frameborder=\"0\" allowfullscreen></iframe>"
-//                )
-//            )
-//            data.add(
-//                VideoData(
-//                    "왕초보 철봉 Step 4",
-//                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/g83sV5D2WJ4\" frameborder=\"0\" allowfullscreen></iframe>"
-//                )
-//            )
         }else if(type==2){
-
-        }else{
-            data.add(
-                VideoData(
-                    "팔굽혀펴기 Step 1",
-                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/SRl21nXi-Qc\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
-                )
-            )
-            data.add(
-                VideoData(
-                    "팔굽혀펴기 Step 2",
-                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/ecMvEalbis8\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
-                )
-            )
-            data.add(
-                VideoData(
-                    "팔굽혀펴기 Step 3",
-                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/1tIIHPXvz0I\" frameborder=\"0\" allowfullscreen></iframe>"
-                )
-            )
-            data.add(
-                VideoData(
-                    "팔굽혀펴기 Step 4",
-                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/g83sV5D2WJ4\" frameborder=\"0\" allowfullscreen></iframe>"
-                )
-            )
+            VideoAdapter.clearAdapter()
+            VideoAdapter.insertData(VideoData(
+                    "올바른 플랭크",
+                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/Zq8nRY9P_cM\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
+            ))
+            VideoAdapter.insertData(VideoData(
+                    "복부 추천 루틴",
+                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/jj6ze_eqmYI\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
+            ))
+        }
+        else if(type==3){
+            VideoAdapter.clearAdapter()
+            VideoAdapter.insertData(VideoData(
+                    "왕초보 하체운동",
+                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/GASCMxaAHKw\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
+            ))
+            VideoAdapter.insertData(VideoData(
+                    "하체운동 추천 루틴",
+                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/KXYi6bI-UPE\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
+            ))
+        }
+        else if(type==4){
+            VideoAdapter.clearAdapter()
+            VideoAdapter.insertData(VideoData(
+                    "5가지 버티기 운동",
+                    "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/bwYrU734-8c\" frameborder=\"0\" allowfullscreen autobuffer></iframe>"
+            ))
         }
     }
 

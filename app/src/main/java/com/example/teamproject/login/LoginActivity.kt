@@ -1,8 +1,11 @@
 package com.example.teamproject.login
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -29,7 +32,37 @@ class LoginActivity : AppCompatActivity() {
         init()
         initEditText()
         initRegister()
+        initFindPW()
+    }
 
+    private fun initFindPW(){ // 비밀번호 찾기
+        binding.apply {
+            forgotPW.setOnClickListener {
+                val resetMail =EditText(this@LoginActivity)
+                val pwResetDialog=AlertDialog.Builder(this@LoginActivity)
+                pwResetDialog.setTitle("비밀번호를 재설정할까요?")
+                pwResetDialog.setMessage("이메일을 입력해주세요.")
+                pwResetDialog.setView(resetMail)
+
+                pwResetDialog.setPositiveButton("확인",DialogInterface.OnClickListener { dialog, which ->
+                    val mail=resetMail.text.toString()
+                    if(mail.trim()==""){
+                        Toast.makeText(this@LoginActivity,"이메일이 필요합니다.",Toast.LENGTH_SHORT).show()
+                        return@OnClickListener
+                    }
+                    auth.sendPasswordResetEmail(mail).addOnSuccessListener {
+                        Toast.makeText(this@LoginActivity,"재설정 링크가 전송되었습니다.",Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(this@LoginActivity,"이메일주소를 확인해 주세요.",Toast.LENGTH_SHORT).show()
+                    }
+                })
+                pwResetDialog.setNegativeButton("취소",DialogInterface.OnClickListener { dialog, which ->
+
+                })
+
+                pwResetDialog.create().show()
+            }
+       }
     }
 
     private fun init(){
@@ -194,7 +227,7 @@ class LoginActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email,pw)
                     .addOnCompleteListener {
                         if(it.isSuccessful){
-                            signupInfo= signupInfo(email,pw,nickname,gender)
+                            signupInfo= signupInfo(email,nickname,gender)
                             try{
                                 FirebaseDatabase.getInstance().getReference("User")
                                         .child(FirebaseAuth.getInstance().currentUser!!.uid)
