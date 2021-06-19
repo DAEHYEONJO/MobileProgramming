@@ -58,6 +58,10 @@ class AddRoutineActivity : AppCompatActivity() {
                 makeToast(R.string.add_routine_empty)
                 return@setOnClickListener
             }
+            if(routine_count==0){
+                makeToast(R.string.add_routine_count_zero)
+                return@setOnClickListener
+            }
             mydbhelper.existRoutineList(
                 user_id,
                 selected_date,
