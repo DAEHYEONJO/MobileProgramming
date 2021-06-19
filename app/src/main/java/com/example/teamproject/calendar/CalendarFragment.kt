@@ -1,5 +1,6 @@
 package com.example.teamproject.calendar
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -42,6 +43,8 @@ class CalendarFragment : Fragment() {
         val reset_button = rootView.findViewById<Button>(R.id.calendar_routine_reset_button)
         val alarm= AlarmService(this.requireContext())
         reset_button.setOnClickListener {
+            var builder = AlertDialog.Builder(this.activity)
+            builder.setMessage("")
             alarm.cancelAlarm(
                 curr_date.substring(0, 4).toInt(),
                 curr_date.substring(5, 7).toInt(),

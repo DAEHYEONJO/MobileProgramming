@@ -71,10 +71,10 @@ class AddRoutineActivity : AppCompatActivity() {
                                     override fun onCallBackExist(value: Boolean) {
                                         super.onCallBackExist(value)
                                         if (value) {
-                                            makeToast("이미 해당 루틴이 등록되어 있습니다.")
+                                            makeToast(R.string.add_routine_duplicate.toString())
                                         } else {
                                             mydbhelper.updateroutine(user_id, data)
-                                            makeToast("루틴이 등록되었습니다.")
+                                            makeToast(R.string.add_routine_success.toString())
                                             alarm.setAlarm(
                                                 selected_date.substring(0, 4).toInt(),
                                                 selected_date.substring(5, 7).toInt(),
@@ -91,7 +91,7 @@ class AddRoutineActivity : AppCompatActivity() {
                                 selected_date.substring(5, 7).toInt(),
                                 selected_date.substring(8, 10).toInt()
                             )
-                            makeToast("루틴이 등록되었습니다.")
+                            makeToast(R.string.add_routine_success.toString())
                             startActivity(intent)
                         }
                     }

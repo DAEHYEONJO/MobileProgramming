@@ -6,4 +6,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="start">"시작" 이라고 말하세요</string>
     <string name="stop">"그만" 이라고 말하세요</string>
+    <string name="add_routine_success">루틴이 등록되었습니다.</string>
+    <string name="add_routine_duplicate">이미 해당 루틴이 등록되어 있습니다.</string>
 </resources>
